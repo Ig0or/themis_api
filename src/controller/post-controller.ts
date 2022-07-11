@@ -1,16 +1,13 @@
 import { Response, Request } from "express";
-import { MongoInfrastructure } from "../infrastructure/mongo-infra";
+import { MongoRepository } from "../repositories/mongo-repository";
 
-const mongoInfrastructure = new MongoInfrastructure();
-const mongoConnection = mongoInfrastructure.getConnection("studies", "blog");
+const b = new MongoRepository();
 
 class PostController {
     static async getAllPosts(
         request: Request,
         response: Response
     ): Promise<Response> {
-        const test = await mongoConnection.find().toArray();
-
         return response.send("hello world");
     }
 }
