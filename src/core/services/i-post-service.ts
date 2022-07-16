@@ -5,7 +5,7 @@ interface IPostService {
     mongoRepository: MongoRepository;
     getAllPosts(): Promise<Array<Post>>;
     getPostById(postId: string): Promise<Post>;
-    createPost(title: string, body: string, userId: string): string;
+    // createPost(title: string, body: string, userId: string): string;
 }
 
 export { IPostService };

@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import { MongoRepository } from "../repositories/mongodb";
 import { MongoInfrastructure } from "../infrastructure/mongodb";
-import { PostService } from "../services/post-service";
+import { PostService } from "../services";
+import { Post } from "../domain/models";
 
 const mongoInfrastructure = new MongoInfrastructure(process.env.MONGO_DB_URI!);
 const mongoConnection = mongoInfrastructure.getConnection("studies", "blog");
@@ -12,16 +13,17 @@ class PostController {
     static async getAllPosts(
         request: Request,
         response: Response
-    ): Promise<Response> {
+    ): Promise<Response<Array<Post>>> {
         const posts = await postService.getAllPosts();
 
-        return response.send("hello world");
+        return response.json(posts);
     }
 
     static async getPostById(request: Request, response: Response) {
-        const post = await postService.getPostById(
-            "16375272-c15b-4cec-92e4-7ccb138e7f6d"
-        );
+        const postId = request.params.id;
+        const post = await postService.getPostById(postId);
+
+        return response.json(post);
     }
 }
 
