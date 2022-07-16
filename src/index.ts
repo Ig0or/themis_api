@@ -1,6 +1,6 @@
 import express from "express";
 
-import { postRouter } from "./routes/post-router";
+import { postRouter } from "./routers";
 
 const app = express();
 const port = 3000;
