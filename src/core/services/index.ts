@@ -1,1 +1,1 @@
-export * from "./i-post-service";
+export { IPostService } from "./i-post-service";
