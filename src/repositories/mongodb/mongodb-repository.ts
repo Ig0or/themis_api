@@ -1,25 +1,18 @@
 import { camelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
-import { MongoInfrastructure } from "../../infrastructure/mongodb/mongodb-infra";
-import { Post } from "../../domain/models/post-types";
+import { Post } from "../../domain/models";
 
 class MongoRepository {
-    mongoInfrastructure: MongoInfrastructure;
-    mongoConnection: Collection;
-    constructor() {
-        this.mongoInfrastructure = new MongoInfrastructure();
-        this.mongoConnection = this.mongoInfrastructure.getConnection(
-            "studies",
-            "blog"
-        );
+    protected mongoConnection: Collection;
+    constructor(mongoConnection: Collection) {
+        this.mongoConnection = mongoConnection;
     }
 
     async getAllPosts(): Promise<Array<Post>> {
-        const posts = await this.mongoConnection
-            .find({}, { projection: { _id: 0 } })
-            .toArray();
-        const camelizedPosts = camelizeKeys(posts) as any as Array<Post>;
+        const posts = this.mongoConnection.find({}, { projection: { _id: 0 } });
+        const arrayPosts = await posts.toArray();
+        const camelizedPosts: any = camelizeKeys(arrayPosts);
 
         return camelizedPosts;
     }
@@ -29,7 +22,7 @@ class MongoRepository {
             { unique_id: postId },
             { projection: { _id: 0 } }
         );
-        const camelizedPost = camelizeKeys(post) as any as Post;
+        const camelizedPost: any = camelizeKeys(post);
 
         return camelizedPost;
     }
