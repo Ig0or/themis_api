@@ -1,20 +1,23 @@
 import { Collection, MongoClient } from "mongodb";
 
 class MongoInfrastructure {
-    uri: string;
-    constructor(uri: string) {
-        this.uri = uri;
-    }
+    private static _mongoClient: MongoClient;
+    private static _mongoCollection: Collection;
+    constructor() {}
 
-    protected getClient(): MongoClient {
-        const client = new MongoClient(this.uri);
+    static getClient(
+        uri: string,
+        database: string,
+        collection: string
+    ): Collection {
+        if (!this._mongoClient) {
+            this._mongoClient = new MongoClient(uri);
+            this._mongoCollection = this._mongoClient
+                .db(database)
+                .collection(collection);
+        }
 
-        return client;
-    }
-
-    getConnection(database: string, collection: string): Collection {
-        const client = this.getClient();
-        return client.db(database).collection(collection);
+        return this._mongoCollection;
     }
 }
 
