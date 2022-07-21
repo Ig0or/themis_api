@@ -21,6 +21,7 @@
         "humps": "^2.0.1",
         "mongodb": "^4.7.0",
         "nodemon": "^2.0.19",
+        "typed-inject": "^3.0.1",
         "typescript": "^4.7.4",
         "uuid": "^8.3.2"
     },
