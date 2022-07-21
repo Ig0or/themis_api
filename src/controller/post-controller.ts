@@ -1,27 +1,30 @@
 import { Response, Request } from "express";
-import { MongoRepository } from "../repositories/mongodb";
-import { MongoInfrastructure } from "../infrastructure/mongodb";
 import { PostService } from "../services";
 import { Post } from "../domain/models";
-
-const mongoInfrastructure = new MongoInfrastructure(process.env.MONGO_DB_URI!);
-const mongoConnection = mongoInfrastructure.getConnection("studies", "blog");
-const mongoRepository = new MongoRepository(mongoConnection);
-const postService = new PostService(mongoRepository);
+import { dependenciesContainer } from "../infrastructure/DI";
 
 class PostController {
-    static async getAllPosts(
+    private _postService: PostService;
+    constructor(
+        postService: PostService = dependenciesContainer.services.postService.injectClass(
+            PostService
+        )
+    ) {
+        this._postService = postService;
+    }
+
+    async getAllPosts(
         request: Request,
         response: Response
     ): Promise<Response<Array<Post>>> {
-        const posts = await postService.getAllPosts();
+        const posts = await this._postService.getAllPosts();
 
         return response.json(posts);
     }
 
-    static async getPostById(request: Request, response: Response) {
+    async getPostById(request: Request, response: Response) {
         const postId = request.params.id;
-        const post = await postService.getPostById(postId);
+        const post = await this._postService.getPostById(postId);
 
         return response.json(post);
     }

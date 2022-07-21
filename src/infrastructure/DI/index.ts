@@ -1,0 +1,1 @@
+export { dependenciesContainer } from "./modules";
