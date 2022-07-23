@@ -10,7 +10,7 @@ const postController =
         PostController
     );
 
-postRouter.get("/", postController.getAllPosts);
-postRouter.get("/:id?", postController.getPostById);
+postRouter.get("/", postController.getAllPosts.bind(postController));
+postRouter.get("/:id?", postController.getPostById.bind(postController));
 
 export { postRouter };
