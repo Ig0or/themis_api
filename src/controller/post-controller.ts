@@ -34,7 +34,7 @@ class PostController {
 
         const responseMongo = await this._postService.createPost(bodyParams);
 
-        return response.status(201).json("Post created");
+        return response.status(201).json(responseMongo);
     }
 }
 

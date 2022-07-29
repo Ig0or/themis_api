@@ -31,6 +31,12 @@ class PostService {
         const postId = uuidv4();
         const createdAt = Date.now();
 
+        const user = await this._mongoRepository.getUserById(post.userId);
+
+        if (!user) {
+            return "This userId doesn't exist.";
+        }
+
         const postObject: Post = {
             title: post.title,
             body: post.body,
