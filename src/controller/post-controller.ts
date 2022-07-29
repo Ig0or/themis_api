@@ -28,6 +28,14 @@ class PostController {
 
         return response.json(post);
     }
+
+    async createPost(request: Request, response: Response) {
+        const bodyParams = request.body;
+
+        const responseMongo = await this._postService.createPost(bodyParams);
+
+        return response.status(201).json("Post created");
+    }
 }
 
 export { PostController };

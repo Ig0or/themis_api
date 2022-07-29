@@ -15,24 +15,28 @@ class MongoRepository {
     }
 
     async getAllPosts(): Promise<Array<Post>> {
-        const posts = this.mongoInfrastructure.find(
+        const response = this.mongoInfrastructure.find(
             {},
             { projection: { _id: 0 } }
         );
-        const arrayPosts = await posts.toArray();
+        const arrayPosts = await response.toArray();
         const camelizedPosts: any = camelizeKeys(arrayPosts);
 
         return camelizedPosts;
     }
 
     async getPostById(postId: string): Promise<Post> {
-        const post = await this.mongoInfrastructure.findOne(
+        const response = await this.mongoInfrastructure.findOne(
             { unique_id: postId },
             { projection: { _id: 0 } }
         );
-        const camelizedPost: any = camelizeKeys(post);
+        const camelizedPost: any = camelizeKeys(response);
 
         return camelizedPost;
+    }
+
+    async createPost(post: Post) {
+        await this.mongoInfrastructure.insertOne(post);
     }
 }
 

@@ -12,5 +12,6 @@ const postController =
 
 postRouter.get("/", postController.getAllPosts.bind(postController));
 postRouter.get("/:id?", postController.getPostById.bind(postController));
+postRouter.post("/", postController.createPost.bind(postController));
 
 export { postRouter };
