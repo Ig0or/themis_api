@@ -22,9 +22,15 @@ class PostController {
         return response.json(posts);
     }
 
-    async getPostById(request: Request, response: Response) {
+    async getPostById(request: Request, response: Response): Promise<Response> {
         const postId = request.params.id;
         const post = await this._postService.getPostById(postId);
+
+        if (!post) {
+            const responseMessage = "This post doesn't exist.";
+
+            return response.status(404).json(responseMessage);
+        }
 
         return response.json(post);
     }
