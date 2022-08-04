@@ -1,5 +1,5 @@
 type Post = {
-    uniqueId?: string;
+    postId?: string;
     title: string;
     body: string;
     userId: string;

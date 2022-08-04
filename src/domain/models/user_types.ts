@@ -1,7 +1,10 @@
+import { Post } from "./index";
+
 type User = {
-    uniqueId?: string;
+    userId?: string;
     userName: string;
     createdAt?: number;
+    posts?: Array<Post>;
 };
 
 export { User };
