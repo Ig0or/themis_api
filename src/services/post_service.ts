@@ -1,7 +1,6 @@
-import { IPostService } from "../core/services";
+import { Post } from "../domain/models";
+import { dependenciesContainer } from "../infrastructure";
 import { MongoRepository } from "../repositories/mongodb";
-import { Post } from "../domain/models/";
-import { dependenciesContainer } from "../infrastructure/DI";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -41,7 +40,7 @@ class PostService {
             title: post.title,
             body: post.body,
             userId: post.userId,
-            uniqueId: postId,
+            postId: postId,
             createdAt: createdAt,
         };
 

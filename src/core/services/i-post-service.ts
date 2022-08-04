@@ -1,5 +1,5 @@
-import { Post } from "../../domain/models/post_types";
-import { MongoRepository } from "../../repositories/mongodb/mongodb-repository";
+import { Post } from "../../domain/models";
+import { MongoRepository } from "../../repositories/mongodb/mongodb_repository";
 
 interface IPostService {
     _mongoRepository: MongoRepository;
