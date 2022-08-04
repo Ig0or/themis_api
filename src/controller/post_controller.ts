@@ -1,7 +1,8 @@
-import { Response, Request } from "express";
-import { PostService } from "../services";
+import { Request, Response } from "express";
+
 import { Post } from "../domain/models";
 import { dependenciesContainer } from "../infrastructure/DI";
+import { PostService } from "../services";
 
 class PostController {
     private _postService: PostService;
