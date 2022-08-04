@@ -1,1 +1,1 @@
-export { MongoRepository } from "./mongodb-repository";
+export { MongoRepository } from "./mongodb_repository";

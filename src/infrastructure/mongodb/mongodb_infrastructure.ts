@@ -1,23 +1,41 @@
 import { Collection, MongoClient } from "mongodb";
 
 class MongoInfrastructure {
-    private static _mongoClient: MongoClient;
-    private static _mongoCollection: Collection;
-    constructor() {}
+    private __connections: Map<Array<string>, Collection>;
+    constructor() {
+        this.__connections = new Map();
+    }
 
-    static getClient(
+    private _getConnectionByDatabaseAndCollection(
         uri: string,
         database: string,
         collection: string
     ): Collection {
-        if (!this._mongoClient) {
-            this._mongoClient = new MongoClient(uri);
-            this._mongoCollection = this._mongoClient
-                .db(database)
-                .collection(collection);
+        const mongoClient = new MongoClient(uri);
+        const mongoCollection = mongoClient.db(database).collection(collection);
+
+        return mongoCollection;
+    }
+
+    public getConnection(
+        uri: string,
+        database: string,
+        collection: string
+    ): Collection {
+        const keyConnection = Array(database, collection);
+        let connection = this.__connections.get(keyConnection);
+
+        if (!connection) {
+            connection = this._getConnectionByDatabaseAndCollection(
+                uri,
+                database,
+                collection
+            );
+
+            this.__connections.set(keyConnection, connection);
         }
 
-        return this._mongoCollection;
+        return connection;
     }
 }
 
