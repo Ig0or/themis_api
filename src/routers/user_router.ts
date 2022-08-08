@@ -11,5 +11,6 @@ const userController =
     );
 
 userRouter.get("/", userController.getAllUSers.bind(userController));
+userRouter.get("/:id?", userController.getUserById.bind(userController));
 
 export { userRouter };
