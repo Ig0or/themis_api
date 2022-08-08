@@ -22,6 +22,16 @@ class UserController {
 
         return response.json(users);
     }
+
+    async getUserById(
+        request: Request,
+        response: Response
+    ): Promise<Response<User>> {
+        const userId = request.params.id;
+        const user = await this._userService.getUserById(userId);
+
+        return response.json(user);
+    }
 }
 
 export { UserController };
