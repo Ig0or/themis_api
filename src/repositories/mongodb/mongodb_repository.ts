@@ -18,7 +18,6 @@ class MongoRepository {
         )
     ) {
         this._mongoInfrastructure = mongoInfrastructure;
-
         this._postsConnection = this._mongoInfrastructure.getConnection(
             process.env.MONGO_DB_URI!,
             "studies",
@@ -52,6 +51,17 @@ class MongoRepository {
         return camelizedPost;
     }
 
+    async getPostsByUserId(userId: string): Promise<Array<Post>> {
+        const response = this._postsConnection.find(
+            { user_id: userId },
+            { projection: { _id: 0, user_id: 0 } }
+        );
+        const arrayPosts = await response.toArray();
+        const camelizedPosts: any = camelizeKeys(arrayPosts);
+
+        return camelizedPosts;
+    }
+
     // async createPost(post: Post) {
     //     const decamelizePost: any = decamelizeKeys(post);
 
@@ -69,15 +79,15 @@ class MongoRepository {
         return camelizedUsers;
     }
 
-    // async getUserById(userId: string): Promise<User> {
-    //     const response = await this.usersConnection.findOne(
-    //         { user_id: userId },
-    //         { projection: { _id: 0 } }
-    //     );
-    //     const camelizedUser: any = camelizeKeys(response);
+    async getUserById(userId: string): Promise<User> {
+        const response = await this._usersConnection.findOne(
+            { user_id: userId },
+            { projection: { _id: 0 } }
+        );
+        const camelizedUser: any = camelizeKeys(response);
 
-    //     return camelizedUser;
-    // }
+        return camelizedUser;
+    }
 }
 
 export { MongoRepository };
