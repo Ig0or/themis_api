@@ -1,12 +1,11 @@
 import { camelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
+import { Post, User } from "../../domain/models";
 import {
     dependenciesContainer,
     MongoInfrastructure,
 } from "../../infrastructure/";
-import { Post } from "../../domain/models";
-import { User } from "../../domain/models";
 
 class MongoRepository {
     private _mongoInfrastructure;
