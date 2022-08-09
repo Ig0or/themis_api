@@ -30,6 +30,12 @@ class UserController {
         const userId = request.params.id;
         const user = await this._userService.getUserById(userId);
 
+        if (!user) {
+            const responseMessage = "This user doesn't exist";
+
+            return response.status(404).json(responseMessage);
+        }
+
         return response.json(user);
     }
 }

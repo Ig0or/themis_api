@@ -1,4 +1,4 @@
-import { camelizeKeys } from "humps";
+import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
 import { Post, User } from "../../domain/models";
@@ -61,11 +61,12 @@ class MongoRepository {
         return camelizedPosts;
     }
 
-    // async createPost(post: Post) {
-    //     const decamelizePost: any = decamelizeKeys(post);
+    async createPost(post: Post): Promise<void> {
+        const decamelizePost: any = decamelizeKeys(post);
+        await this._postsConnection.insertOne(decamelizePost);
 
-    //     await this._postsConnection.insertOne(decamelizePost);
-    // }
+        return;
+    }
 
     async getAllUsers(): Promise<Array<User>> {
         const response = this._usersConnection.find(

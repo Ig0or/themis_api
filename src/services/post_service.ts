@@ -27,15 +27,15 @@ class PostService {
     }
 
     async createPost(post: Post): Promise<string> {
-        const postId = uuidv4();
-        const createdAt = Date.now();
-
-        const user = await this._mongoRepository.getUserById(post.userId);
+        const userId = post.userId;
+        const user = await this._mongoRepository.getUserById(userId);
 
         if (!user) {
             return "This userId doesn't exist.";
         }
 
+        const postId = uuidv4();
+        const createdAt = Date.now();
         const postObject: Post = {
             title: post.title,
             body: post.body,
@@ -44,7 +44,7 @@ class PostService {
             createdAt: createdAt,
         };
 
-        const a = await this._mongoRepository.createPost(postObject);
+        await this._mongoRepository.createPost(postObject);
 
         return "Post created";
     }

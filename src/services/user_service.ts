@@ -21,8 +21,13 @@ class UserService {
 
     async getUserById(userId: string): Promise<User> {
         const user = await this._mongoRepository.getUserById(userId);
-        const userPosts = await this._mongoRepository.getPostsByUserId(userId);
-        user.posts = userPosts;
+
+        if (user) {
+            const userPosts = await this._mongoRepository.getPostsByUserId(
+                userId
+            );
+            user.posts = userPosts;
+        }
 
         return user;
     }
