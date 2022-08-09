@@ -1,7 +1,6 @@
+import { User } from "../domain/models";
 import { dependenciesContainer } from "../infrastructure/DI";
 import { MongoRepository } from "../repositories/mongodb";
-
-import { User } from "../domain/models/user_types";
 
 class UserService {
     _mongoRepository: MongoRepository;

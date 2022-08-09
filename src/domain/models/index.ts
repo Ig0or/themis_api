@@ -1,2 +1,2 @@
-export { Post } from "./post_types";
-export { User } from "./user_types";
+export { Post } from "./post_model";
+export { User } from "./user_model";
