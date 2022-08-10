@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import { PostController } from "../controller";
-import { dependenciesContainer } from "../infrastructure/DI";
-import { postValidator } from "../domain/validators";
-import { postMiddleware } from "./../middlewares/post_middleware";
+import { PostController } from "../../controller";
+import { postValidator } from "../../domain/validators";
+import { dependenciesContainer } from "../../infrastructure/DI";
+import { postMiddleware } from "../../middlewares/";
 
 const postRouter = Router();
 

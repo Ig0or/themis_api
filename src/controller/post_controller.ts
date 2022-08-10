@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { Post } from "../domain/models";
-import { dependenciesContainer } from "../infrastructure/DI";
+import { PostModel } from "../domain/models";
+import { dependenciesContainer } from "../infrastructure";
 import { PostService } from "../services";
 
 class PostController {
@@ -36,11 +36,14 @@ class PostController {
         return response.json(post);
     }
 
-    async createPost(request: Request, response: Response) {
+    async createPost(
+        request: Request,
+        response: Response
+    ): Promise<Response<string>> {
         const bodyParams = request.body;
-        const responseMongo = await this._postService.createPost(bodyParams);
+        const responseService = await this._postService.createPost(bodyParams);
 
-        return response.status(201).json(responseMongo);
+        return response.status(201).json(responseService);
     }
 }
 

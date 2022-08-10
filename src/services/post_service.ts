@@ -3,6 +3,8 @@ import { PostInput } from "../domain/types";
 import { dependenciesContainer } from "../infrastructure";
 import { MongoRepository } from "../repositories/mongodb";
 
+import { ResponseModel } from "../domain/models/";
+
 import { v4 as uuidv4 } from "uuid";
 
 class PostService {
@@ -27,12 +29,19 @@ class PostService {
         return post;
     }
 
-    async createPost(post: PostInput): Promise<string> {
+    async createPost(post: PostInput): Promise<ResponseModel> {
         const userId = post.userId;
         const user = await this._mongoRepository.getUserById(userId);
 
         if (!user) {
-            return "This userId doesn't exist.";
+            const responseModel: ResponseModel = {
+                statusCode: 404,
+                success: false,
+                message:
+                    "The post wasn't created because this user doesn't exist.",
+            };
+
+            return responseModel;
         }
 
         const postId = uuidv4();

@@ -1,2 +1,2 @@
-export { userRouter } from "./user_router";
-export { postRouter } from "./post_router";
+export { postRouter } from "./post/post_router";
+export { userRouter } from "./user/user_router";

@@ -1,10 +1,10 @@
-import { Post } from "./index";
+import { PostModel } from "./index";
 
 type User = {
     userId?: string;
     userName: string;
     createdAt?: number;
-    posts?: Array<Post>;
+    posts?: Array<PostModel>;
 };
 
 export { User };

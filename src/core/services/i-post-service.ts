@@ -1,4 +1,4 @@
-import { Post } from "../../domain/models";
+import { PostModelPost } from "../../domain/models";
 import { MongoRepository } from "../../repositories/mongodb/mongodb_repository";
 
 interface IPostService {
