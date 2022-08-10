@@ -1,4 +1,5 @@
-import { Post } from "../domain/models";
+import { PostModel } from "../domain/models";
+import { PostInput } from "../domain/types";
 import { dependenciesContainer } from "../infrastructure";
 import { MongoRepository } from "../repositories/mongodb";
 
@@ -26,7 +27,7 @@ class PostService {
         return post;
     }
 
-    async createPost(post: Post): Promise<string> {
+    async createPost(post: PostInput): Promise<string> {
         const userId = post.userId;
         const user = await this._mongoRepository.getUserById(userId);
 
@@ -36,7 +37,7 @@ class PostService {
 
         const postId = uuidv4();
         const createdAt = Date.now();
-        const postObject: Post = {
+        const postObject: PostModel = {
             title: post.title,
             body: post.body,
             userId: post.userId,

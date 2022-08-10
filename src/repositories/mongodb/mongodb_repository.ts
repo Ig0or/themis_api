@@ -1,7 +1,7 @@
 import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
-import { Post, User } from "../../domain/models";
+import { PostModel, User } from "../../domain/models";
 import {
     dependenciesContainer,
     MongoInfrastructure,
@@ -61,7 +61,7 @@ class MongoRepository {
         return camelizedPosts;
     }
 
-    async createPost(post: Post): Promise<void> {
+    async createPost(post: PostModel): Promise<void> {
         const decamelizePost: any = decamelizeKeys(post);
         await this._postsConnection.insertOne(decamelizePost);
 
