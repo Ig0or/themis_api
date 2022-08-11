@@ -3,14 +3,15 @@ import { Request, Response } from "express";
 
 // Local
 import { IPostController } from "../../core/controllers";
+import { IPostService } from "../../core/services";
 import { ResponseModel } from "../../domain/models";
 import { dependenciesContainer } from "../../infrastructure";
 import { PostService } from "../../services";
 
 class PostController implements IPostController {
-    private _postService: PostService;
+    private _postService: IPostService;
     constructor(
-        postService: PostService = dependenciesContainer.services.postService.injectClass(
+        postService: IPostService = dependenciesContainer.services.postService.injectClass(
             PostService
         )
     ) {

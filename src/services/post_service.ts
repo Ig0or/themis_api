@@ -2,14 +2,15 @@
 import { v4 as uuidv4 } from "uuid";
 
 // Local
+import { IPostService } from "../core/services";
 import { PostModel } from "../domain/models";
 import { ResponseModel } from "../domain/models/";
 import { PostInput } from "../domain/types";
 import { dependenciesContainer } from "../infrastructure";
 import { MongoRepository } from "../repositories/mongodb";
 
-class PostService {
-    _mongoRepository: MongoRepository;
+class PostService implements IPostService {
+    private _mongoRepository: MongoRepository;
     constructor(
         mongoRepository: MongoRepository = dependenciesContainer.repositories.mongoRepository.injectClass(
             MongoRepository
