@@ -52,7 +52,7 @@ class MongoRepository {
         return camelizedPost;
     }
 
-    async getPostsByUserId(userId: string): Promise<Array<Post>> {
+    async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
         const response = this._postsConnection.find(
             { user_id: userId },
             { projection: { _id: 0, user_id: 0 } }
@@ -64,10 +64,14 @@ class MongoRepository {
     }
 
     async createPost(post: PostModel): Promise<void> {
-        const decamelizePost: any = decamelizeKeys(post);
+        const decamelizePost = decamelizeKeys(post);
         await this._postsConnection.insertOne(decamelizePost);
 
         return;
+    }
+
+    async editPost(post: PostModel) {
+        const decamelizePost: any = decamelizeKeys();
     }
 
     async getAllUsers(): Promise<Array<User>> {

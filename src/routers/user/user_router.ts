@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { dependenciesContainer } from "../../infrastructure/DI";
-import { UserController } from "../../controller";
+import { UserController } from "../../controllers";
 
 const userRouter = Router();
 
