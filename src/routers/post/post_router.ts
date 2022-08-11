@@ -1,6 +1,7 @@
+// Third PA
 import { Router } from "express";
 
-import { PostController } from "../../controller";
+import { PostController } from "../../controllers";
 import { postValidator } from "../../domain/validators";
 import { dependenciesContainer } from "../../infrastructure/DI";
 import { postMiddleware } from "../../middlewares/";
