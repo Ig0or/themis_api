@@ -3,15 +3,15 @@ import { checkSchema } from "express-validator";
 const postValidator = checkSchema({
     title: {
         isString: true,
-        errorMessage: "This field is required as string.",
+        errorMessage: "Invalid params.",
     },
     body: {
         isString: true,
-        errorMessage: "This field is required as string.",
+        errorMessage: "Invalid params.",
     },
     userId: {
         isString: true,
-        errorMessage: "This field is required as string.",
+        errorMessage: "Invalid params.",
     },
 });
 
