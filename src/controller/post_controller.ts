@@ -1,6 +1,8 @@
+// Third Party
 import { Request, Response } from "express";
 
-import { PostModel } from "../domain/models";
+// Local
+import { ResponseModel } from "../domain/models";
 import { dependenciesContainer } from "../infrastructure";
 import { PostService } from "../services";
 
@@ -17,10 +19,10 @@ class PostController {
     async getAllPosts(
         request: Request,
         response: Response
-    ): Promise<Response<Array<Post>>> {
-        const posts = await this._postService.getAllPosts();
+    ): Promise<Response<ResponseModel>> {
+        const responseModel = await this._postService.getAllPosts();
 
-        return response.json(posts);
+        return response.status(responseModel.statusCode).json(responseModel);
     }
 
     async getPostById(request: Request, response: Response): Promise<Response> {
@@ -39,11 +41,11 @@ class PostController {
     async createPost(
         request: Request,
         response: Response
-    ): Promise<Response<string>> {
+    ): Promise<Response<ResponseModel>> {
         const bodyParams = request.body;
-        const responseService = await this._postService.createPost(bodyParams);
+        const responseModel = await this._postService.createPost(bodyParams);
 
-        return response.status(201).json(responseService);
+        return response.status(responseModel.statusCode).json(responseModel);
     }
 }
 

@@ -1,6 +1,8 @@
+// Third Party
 import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
+// Local
 import { PostModel, User } from "../../domain/models";
 import {
     dependenciesContainer,
@@ -29,12 +31,12 @@ class MongoRepository {
         );
     }
 
-    async getAllPosts(): Promise<Array<Post>> {
-        const response = this._postsConnection.find(
+    async getAllPosts(): Promise<Array<PostModel>> {
+        const mongoResponse = this._postsConnection.find(
             {},
             { projection: { _id: 0 } }
         );
-        const arrayPosts = await response.toArray();
+        const arrayPosts = await mongoResponse.toArray();
         const camelizedPosts: any = camelizeKeys(arrayPosts);
 
         return camelizedPosts;

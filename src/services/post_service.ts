@@ -1,11 +1,12 @@
+// Third Party
+import { v4 as uuidv4 } from "uuid";
+
+// Local
 import { PostModel } from "../domain/models";
+import { ResponseModel } from "../domain/models/";
 import { PostInput } from "../domain/types";
 import { dependenciesContainer } from "../infrastructure";
 import { MongoRepository } from "../repositories/mongodb";
-
-import { ResponseModel } from "../domain/models/";
-
-import { v4 as uuidv4 } from "uuid";
 
 class PostService {
     _mongoRepository: MongoRepository;
@@ -17,10 +18,16 @@ class PostService {
         this._mongoRepository = mongoRepository;
     }
 
-    async getAllPosts(): Promise<Array<Post>> {
+    async getAllPosts(): Promise<ResponseModel> {
         const posts = await this._mongoRepository.getAllPosts();
 
-        return posts;
+        const responseModel: ResponseModel = {
+            statusCode: 200,
+            success: true,
+            result: posts,
+        };
+
+        return responseModel;
     }
 
     async getPostById(postId: string): Promise<Post> {
@@ -56,7 +63,13 @@ class PostService {
 
         await this._mongoRepository.createPost(postObject);
 
-        return "Post created";
+        const responseModel: ResponseModel = {
+            statusCode: 201,
+            success: true,
+            result: "Post created",
+        };
+
+        return responseModel;
     }
 }
 
