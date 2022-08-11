@@ -42,12 +42,12 @@ class MongoRepository {
         return camelizedPosts;
     }
 
-    async getPostById(postId: string): Promise<Post> {
-        const response = await this._postsConnection.findOne(
-            { unique_id: postId },
+    async getPostById(postId: string): Promise<PostModel> {
+        const mongoResponse = await this._postsConnection.findOne(
+            { post_id: postId },
             { projection: { _id: 0 } }
         );
-        const camelizedPost: any = camelizeKeys(response);
+        const camelizedPost: any = camelizeKeys(mongoResponse);
 
         return camelizedPost;
     }

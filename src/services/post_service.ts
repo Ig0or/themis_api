@@ -30,10 +30,26 @@ class PostService {
         return responseModel;
     }
 
-    async getPostById(postId: string): Promise<Post> {
+    async getPostById(postId: string): Promise<ResponseModel> {
         const post = await this._mongoRepository.getPostById(postId);
 
-        return post;
+        if (!post) {
+            const responseModel: ResponseModel = {
+                statusCode: 404,
+                success: false,
+                message: "This post doesn't exist.",
+            };
+
+            return responseModel;
+        }
+
+        const responseModel: ResponseModel = {
+            statusCode: 200,
+            success: true,
+            result: post,
+        };
+
+        return responseModel;
     }
 
     async createPost(post: PostInput): Promise<ResponseModel> {
