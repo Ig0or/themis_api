@@ -9,7 +9,7 @@
             "@middlewares/*": ["src/middlewares/*"],
             "@repositories/*": ["src/repositories/*"],
             "@routers/*": ["src/routers/*"],
-            "@services/*": ["src/services/"]
+            "@services/*": ["src/services/*"]
         }
     }
 }
