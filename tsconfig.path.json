@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@controllers/*": ["src/controllers/*"],
+            "@core/*": ["src/core/*"],
+            "@domain/*": ["src/domain/*"],
+            "@infrastructure/*": ["src/infrastructure/*"],
+            "@middlewares/*": ["src/middlewares/*"],
+            "@repositories/*": ["src/repositories/*"],
+            "@routers/*": ["src/routers/*"],
+            "@services/*": ["src/services/"]
+        }
+    }
+}
