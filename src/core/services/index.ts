@@ -1,1 +1,1 @@
-export * from "./post/i_post_service";
+export * from "./post/i-post-service";

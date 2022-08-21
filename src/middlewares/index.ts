@@ -1,1 +1,1 @@
-export * from "./post/post_middleware";
+export * from "./post/post-middleware";

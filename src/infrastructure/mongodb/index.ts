@@ -1,1 +1,1 @@
-export * from "./mongodb_infrastructure";
+export * from "./mongodb-infrastructure";

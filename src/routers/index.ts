@@ -1,2 +1,2 @@
-export * from "./post/post_router";
-export * from "./user/user_router";
+export * from "./post/post-router";
+export * from "./user/user-router";

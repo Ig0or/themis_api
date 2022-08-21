@@ -1,2 +1,2 @@
-export * from "./post/post_controller";
-export * from "./user/user_controller";
+export * from "./post/post-controller";
+export * from "./user/user-controller";
