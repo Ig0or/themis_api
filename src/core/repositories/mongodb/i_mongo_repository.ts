@@ -1,4 +1,5 @@
-import { PostModel } from "../../../domain/models";
+// Local
+import { PostModel } from "@domain/models";
 
 interface IMongoRepository {
     getAllPosts(): Promise<Array<PostModel>>;

@@ -1,10 +1,11 @@
-// Third PA
+// Third Party
 import { Router } from "express";
 
-import { PostController } from "../../controllers";
-import { postValidator } from "../../domain/validators";
-import { dependenciesContainer } from "../../infrastructure/DI";
-import { postMiddleware } from "../../middlewares/";
+// Local
+import { PostController } from "@controllers/index";
+import { postValidator } from "@domain/validators";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { postMiddleware } from "@middlewares/index";
 
 const postRouter = Router();
 

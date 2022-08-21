@@ -2,12 +2,12 @@
 import { v4 as uuidv4 } from "uuid";
 
 // Local
-import { IPostService } from "../core/services";
-import { PostModel } from "../domain/models";
-import { ResponseModel } from "../domain/models/";
-import { PostInput } from "../domain/types";
-import { dependenciesContainer } from "../infrastructure";
-import { MongoRepository } from "../repositories/mongodb";
+import { IPostService } from "@core/services";
+import { PostModel } from "@domain/models";
+import { ResponseModel } from "@domain/models/";
+import { PostInput } from "@domain/types";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { MongoRepository } from "@repositories/index";
 
 class PostService implements IPostService {
     private _mongoRepository: MongoRepository;

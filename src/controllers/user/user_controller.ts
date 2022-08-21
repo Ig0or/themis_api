@@ -1,8 +1,10 @@
+// Third Party
 import { Request, Response } from "express";
 
-import { User } from "../../domain/models";
-import { dependenciesContainer } from "../../infrastructure/DI";
-import { UserService } from "../../services";
+// Local
+import { UserModel } from "@domain/models";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { UserService } from "@services/index";
 
 class UserController {
     private _userService: UserService;
@@ -17,7 +19,7 @@ class UserController {
     async getAllUSers(
         request: Request,
         response: Response
-    ): Promise<Response<Array<User>>> {
+    ): Promise<Response<Array<UserModel>>> {
         const users = await this._userService.getAllUsers();
 
         return response.json(users);
@@ -26,7 +28,7 @@ class UserController {
     async getUserById(
         request: Request,
         response: Response
-    ): Promise<Response<User>> {
+    ): Promise<Response<UserModel>> {
         const userId = request.params.id;
         const user = await this._userService.getUserById(userId);
 

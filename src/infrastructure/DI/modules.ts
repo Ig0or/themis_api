@@ -1,6 +1,9 @@
+// Third Party
 import { createInjector } from "typed-inject";
-import { MongoRepository } from "../../repositories/mongodb";
-import { PostService, UserService } from "../../services";
+
+// Local
+import { MongoRepository } from "@repositories/index";
+import { PostService, UserService } from "@services/index";
 
 const dependenciesContainer = {
     controllers: {

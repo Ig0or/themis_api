@@ -1,10 +1,11 @@
-import { PostModel } from "./index";
+// Local
+import { PostModel } from "@domain/models";
 
-type User = {
+type UserModel = {
     userId?: string;
     userName: string;
     createdAt?: number;
     posts?: Array<PostModel>;
 };
 
-export { User };
+export { UserModel };

@@ -1,1 +1,1 @@
-export { dependenciesContainer } from "./modules";
+export * from "./modules";

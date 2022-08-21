@@ -1,1 +1,1 @@
-export { IPostController } from "./post/i_post_controller";
+export * from "./post/i_post_controller";

@@ -1,6 +1,8 @@
+// Third Party
 import express from "express";
 
-import { postRouter, userRouter } from "./routers";
+// Local
+import { postRouter, userRouter } from "@routers/index";
 
 const app = express();
 const port = 3000;

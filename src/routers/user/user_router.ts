@@ -1,7 +1,9 @@
+// Third Party
 import { Router } from "express";
 
-import { dependenciesContainer } from "../../infrastructure/DI";
-import { UserController } from "../../controllers";
+// Local
+import { UserController } from "@controllers/index";
+import { dependenciesContainer } from "@infrastructure/DI";
 
 const userRouter = Router();
 

@@ -1,2 +1,2 @@
-export { UserService } from "./user_service";
-export { PostService } from "./post_service";
+export * from "./user/user_service";
+export * from "./post/post_service";

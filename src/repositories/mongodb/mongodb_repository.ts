@@ -3,11 +3,9 @@ import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
 // Local
-import { PostModel, User } from "../../domain/models";
-import {
-    dependenciesContainer,
-    MongoInfrastructure,
-} from "../../infrastructure/";
+import { PostModel, UserModel } from "@domain/models";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { MongoInfrastructure } from "@infrastructure/mongodb";
 
 class MongoRepository {
     private _mongoInfrastructure;
@@ -74,7 +72,7 @@ class MongoRepository {
         const decamelizePost: any = decamelizeKeys();
     }
 
-    async getAllUsers(): Promise<Array<User>> {
+    async getAllUsers(): Promise<Array<UserModel>> {
         const response = this._usersConnection.find(
             {},
             { projection: { _id: 0 } }
@@ -85,7 +83,7 @@ class MongoRepository {
         return camelizedUsers;
     }
 
-    async getUserById(userId: string): Promise<User> {
+    async getUserById(userId: string): Promise<UserModel> {
         const response = await this._usersConnection.findOne(
             { user_id: userId },
             { projection: { _id: 0 } }

@@ -2,11 +2,11 @@
 import { Request, Response } from "express";
 
 // Local
-import { IPostController } from "../../core/controllers";
-import { IPostService } from "../../core/services";
-import { ResponseModel } from "../../domain/models";
-import { dependenciesContainer } from "../../infrastructure";
-import { PostService } from "../../services";
+import { IPostController } from "@core/controllers";
+import { IPostService } from "@core/services";
+import { ResponseModel } from "@domain/models";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { PostService } from "@services/index";
 
 class PostController implements IPostController {
     private _postService: IPostService;

@@ -1,6 +1,7 @@
-import { User } from "../domain/models";
-import { dependenciesContainer } from "../infrastructure/DI";
-import { MongoRepository } from "../repositories/mongodb";
+// Local
+import { UserModel } from "@domain/models";
+import { dependenciesContainer } from "@infrastructure/DI";
+import { MongoRepository } from "@repositories/index";
 
 class UserService {
     _mongoRepository: MongoRepository;
@@ -12,13 +13,13 @@ class UserService {
         this._mongoRepository = mongoRepository;
     }
 
-    async getAllUsers(): Promise<Array<User>> {
+    async getAllUsers(): Promise<Array<UserModel>> {
         const posts = await this._mongoRepository.getAllUsers();
 
         return posts;
     }
 
-    async getUserById(userId: string): Promise<User> {
+    async getUserById(userId: string): Promise<UserModel> {
         const user = await this._mongoRepository.getUserById(userId);
 
         if (user) {

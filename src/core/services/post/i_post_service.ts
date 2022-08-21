@@ -1,6 +1,6 @@
 // Local
-import { ResponseModel } from "../../../domain/models";
-import { PostInput } from "../../../domain/types";
+import { ResponseModel } from "@domain/models";
+import { PostInput } from "@domain/types";
 
 interface IPostService {
     getAllPosts(): Promise<ResponseModel>;

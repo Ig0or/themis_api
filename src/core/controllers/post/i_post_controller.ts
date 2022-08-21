@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 
 // Local
-import { ResponseModel } from "../../../domain/models";
+import { ResponseModel } from "@domain/models";
 
 interface IPostController {
     getAllPosts(
