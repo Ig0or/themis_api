@@ -1,7 +1,7 @@
 // Third Party
 import { checkSchema } from "express-validator";
 
-const postValidator = checkSchema({
+const createPostValidator = checkSchema({
     title: {
         isString: true,
         errorMessage: "Invalid params.",
@@ -16,4 +16,15 @@ const postValidator = checkSchema({
     },
 });
 
-export { postValidator };
+const editPostValidator = checkSchema({
+    title: {
+        isString: true,
+        errorMessage: "Invalid params.",
+    },
+    body: {
+        isString: true,
+        errorMessage: "Invalid params.",
+    },
+});
+
+export { createPostValidator, editPostValidator };

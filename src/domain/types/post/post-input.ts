@@ -1,7 +1,7 @@
 type PostInput = {
     title: string;
     body: string;
-    userId: string;
+    userId?: string;
 };
 
 export { PostInput };
