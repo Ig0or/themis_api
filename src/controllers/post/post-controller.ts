@@ -46,6 +46,17 @@ class PostController implements IPostController {
 
         return response.status(responseModel.statusCode).json(responseModel);
     }
+
+    async editPost(request: Request, response: Response) {
+        const bodyParams = request.body;
+        const queryParams = request.params;
+        const responseModel = await this._postService.editPost(
+            bodyParams,
+            queryParams
+        );
+
+        return response.status(responseModel.statusCode).json(responseModel);
+    }
 }
 
 export { PostController };

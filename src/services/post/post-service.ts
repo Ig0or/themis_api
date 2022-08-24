@@ -88,6 +88,11 @@ class PostService implements IPostService {
 
         return responseModel;
     }
+
+    async editPost(post: PostInput, postId: string) {
+        console.log(post);
+        console.log(postId);
+    }
 }
 
 export { PostService };

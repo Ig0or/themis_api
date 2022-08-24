@@ -68,9 +68,9 @@ class MongoRepository {
         return;
     }
 
-    async editPost(post: PostModel) {
-        const decamelizePost: any = decamelizeKeys();
-    }
+    // async editPost(post: PostModel) {
+    //     const decamelizePost: any = decamelizeKeys(post);
+    // }
 
     async getAllUsers(): Promise<Array<UserModel>> {
         const response = this._usersConnection.find(

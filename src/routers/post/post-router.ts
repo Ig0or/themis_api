@@ -3,9 +3,9 @@ import { Router } from "express";
 
 // Local
 import { PostController } from "@controllers/index";
-import { postValidator } from "@domain/validators";
+import { createPostValidator, editPostValidator } from "@domain/validators";
 import { dependenciesContainer } from "@infrastructure/DI";
-import { postMiddleware } from "@middlewares/index";
+import { postValidatorMiddleware } from "@middlewares/index";
 
 const postRouter = Router();
 
@@ -18,9 +18,15 @@ postRouter.get("/", postController.getAllPosts.bind(postController));
 postRouter.get("/:id?", postController.getPostById.bind(postController));
 postRouter.post(
     "/",
-    postValidator,
-    postMiddleware,
+    createPostValidator,
+    postValidatorMiddleware,
     postController.createPost.bind(postController)
+);
+postRouter.put(
+    "/:id?",
+    editPostValidator,
+    postValidatorMiddleware,
+    postController.editPost.bind(postController)
 );
 
 export { postRouter };
