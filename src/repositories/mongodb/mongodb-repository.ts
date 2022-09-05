@@ -6,92 +6,96 @@ import { Collection } from "mongodb";
 import { PostModel, UserModel } from "@domain/models";
 import { dependenciesContainer } from "@infrastructure/DI";
 import { MongoInfrastructure } from "@infrastructure/mongodb";
+import { PostInput } from "@domain/types";
 
 class MongoRepository {
-    private _mongoInfrastructure;
-    private _postsConnection: Collection;
-    private _usersConnection: Collection;
-    constructor(
-        mongoInfrastructure: MongoInfrastructure = dependenciesContainer.infrastructure.mongoInfrastructure.injectClass(
-            MongoInfrastructure
-        )
-    ) {
-        this._mongoInfrastructure = mongoInfrastructure;
-        this._postsConnection = this._mongoInfrastructure.getConnection(
-            process.env.MONGO_DB_URI!,
-            "studies",
-            "posts"
-        );
-        this._usersConnection = this._mongoInfrastructure.getConnection(
-            process.env.MONGO_DB_URI!,
-            "studies",
-            "users"
-        );
-    }
+  private _mongoInfrastructure;
+  private _postsConnection: Collection;
+  private _usersConnection: Collection;
 
-    async getAllPosts(): Promise<Array<PostModel>> {
-        const mongoResponse = this._postsConnection.find(
-            {},
-            { projection: { _id: 0 } }
-        );
-        const arrayPosts = await mongoResponse.toArray();
-        const camelizedPosts: any = camelizeKeys(arrayPosts);
+  constructor(
+    mongoInfrastructure: MongoInfrastructure = dependenciesContainer.infrastructure.mongoInfrastructure.injectClass(
+      MongoInfrastructure
+    )
+  ) {
+    this._mongoInfrastructure = mongoInfrastructure;
+    this._postsConnection = this._mongoInfrastructure.getConnection(
+      process.env.MONGO_DB_URI!,
+      "studies",
+      "posts"
+    );
+    this._usersConnection = this._mongoInfrastructure.getConnection(
+      process.env.MONGO_DB_URI!,
+      "studies",
+      "users"
+    );
+  }
 
-        return camelizedPosts;
-    }
+  async getAllPosts(): Promise<Array<PostModel>> {
+    const mongoResponse = this._postsConnection.find(
+      {},
+      { projection: { _id: 0 } }
+    );
+    const arrayPosts = await mongoResponse.toArray();
+    const camelizedPosts: any = camelizeKeys(arrayPosts);
 
-    async getPostById(postId: string): Promise<PostModel> {
-        const mongoResponse = await this._postsConnection.findOne(
-            { post_id: postId },
-            { projection: { _id: 0 } }
-        );
-        const camelizedPost: any = camelizeKeys(mongoResponse);
+    return camelizedPosts;
+  }
 
-        return camelizedPost;
-    }
+  async getPostById(postId: string): Promise<PostModel> {
+    const mongoResponse = await this._postsConnection.findOne(
+      { post_id: postId },
+      { projection: { _id: 0 } }
+    );
+    const camelizedPost: any = camelizeKeys(mongoResponse);
 
-    async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
-        const response = this._postsConnection.find(
-            { user_id: userId },
-            { projection: { _id: 0, user_id: 0 } }
-        );
-        const arrayPosts = await response.toArray();
-        const camelizedPosts: any = camelizeKeys(arrayPosts);
+    return camelizedPost;
+  }
 
-        return camelizedPosts;
-    }
+  async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
+    const response = this._postsConnection.find(
+      { user_id: userId },
+      { projection: { _id: 0, user_id: 0 } }
+    );
+    const arrayPosts = await response.toArray();
+    const camelizedPosts: any = camelizeKeys(arrayPosts);
 
-    async createPost(post: PostModel): Promise<void> {
-        const decamelizePost = decamelizeKeys(post);
-        await this._postsConnection.insertOne(decamelizePost);
+    return camelizedPosts;
+  }
 
-        return;
-    }
+  async createPost(post: PostModel): Promise<void> {
+    const decamelizePost = decamelizeKeys(post);
+    await this._postsConnection.insertOne(decamelizePost);
 
-    // async editPost(post: PostModel) {
-    //     const decamelizePost: any = decamelizeKeys(post);
-    // }
+    return;
+  }
 
-    async getAllUsers(): Promise<Array<UserModel>> {
-        const response = this._usersConnection.find(
-            {},
-            { projection: { _id: 0 } }
-        );
-        const arrayUSers = await response.toArray();
-        const camelizedUsers: any = camelizeKeys(arrayUSers);
+  async editPost(post: PostInput, postId: string) {
+    const response = await this._postsConnection.updateOne(
+      { post_id: postId },
+      { $set: { title: post.title, body: post.body } }
+    );
 
-        return camelizedUsers;
-    }
+    return response;
+  }
 
-    async getUserById(userId: string): Promise<UserModel> {
-        const response = await this._usersConnection.findOne(
-            { user_id: userId },
-            { projection: { _id: 0 } }
-        );
-        const camelizedUser: any = camelizeKeys(response);
+  async getAllUsers(): Promise<Array<UserModel>> {
+    const response = this._usersConnection.find({}, { projection: { _id: 0 } });
+    const arrayUSers = await response.toArray();
+    const camelizedUsers: any = camelizeKeys(arrayUSers);
 
-        return camelizedUser;
-    }
+    return camelizedUsers;
+  }
+
+  async getUserById(userId: string): Promise<UserModel> {
+    const response = await this._usersConnection.findOne(
+      { user_id: userId },
+      { projection: { _id: 0 } }
+    );
+    const camelizedUser: any = camelizeKeys(response);
+
+    return camelizedUser;
+  }
 }
 
 export { MongoRepository };

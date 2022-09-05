@@ -49,10 +49,10 @@ class PostController implements IPostController {
 
     async editPost(request: Request, response: Response) {
         const bodyParams = request.body;
-        const queryParams = request.params;
+        const postId = request.params.id;
         const responseModel = await this._postService.editPost(
             bodyParams,
-            queryParams
+            postId
         );
 
         return response.status(responseModel.statusCode).json(responseModel);
