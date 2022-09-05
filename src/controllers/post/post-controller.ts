@@ -9,54 +9,55 @@ import { dependenciesContainer } from "@infrastructure/DI";
 import { PostService } from "@services/index";
 
 class PostController implements IPostController {
-    private _postService: IPostService;
-    constructor(
-        postService: IPostService = dependenciesContainer.services.postService.injectClass(
-            PostService
-        )
-    ) {
-        this._postService = postService;
-    }
+  private _postService: IPostService;
 
-    async getAllPosts(
-        request: Request,
-        response: Response
-    ): Promise<Response<ResponseModel>> {
-        const responseModel = await this._postService.getAllPosts();
+  constructor(
+    postService: IPostService = dependenciesContainer.services.postService.injectClass(
+      PostService
+    )
+  ) {
+    this._postService = postService;
+  }
 
-        return response.status(responseModel.statusCode).json(responseModel);
-    }
+  async getAllPosts(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const responseModel = await this._postService.getAllPosts();
 
-    async getPostById(
-        request: Request,
-        response: Response
-    ): Promise<Response<ResponseModel>> {
-        const postId = request.params.id;
-        const responseModel = await this._postService.getPostById(postId);
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 
-        return response.status(responseModel.statusCode).json(responseModel);
-    }
+  async getPostById(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const postId = request.params.id;
+    const responseModel = await this._postService.getPostById(postId);
 
-    async createPost(
-        request: Request,
-        response: Response
-    ): Promise<Response<ResponseModel>> {
-        const bodyParams = request.body;
-        const responseModel = await this._postService.createPost(bodyParams);
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 
-        return response.status(responseModel.statusCode).json(responseModel);
-    }
+  async createPost(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const bodyParams = request.body;
+    const responseModel = await this._postService.createPost(bodyParams);
 
-    async editPost(request: Request, response: Response) {
-        const bodyParams = request.body;
-        const postId = request.params.id;
-        const responseModel = await this._postService.editPost(
-            bodyParams,
-            postId
-        );
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 
-        return response.status(responseModel.statusCode).json(responseModel);
-    }
+  async editPost(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const bodyParams = request.body;
+    const postId = request.params.id;
+    const responseModel = await this._postService.editPost(bodyParams, postId);
+
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 }
 
 export { PostController };

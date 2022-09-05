@@ -1,6 +1,6 @@
 // Third Party
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { Collection } from "mongodb";
+import { Collection, UpdateResult } from "mongodb";
 
 // Local
 import { PostModel, UserModel } from "@domain/models";
@@ -70,7 +70,7 @@ class MongoRepository {
     return;
   }
 
-  async editPost(post: PostInput, postId: string) {
+  async editPost(post: PostInput, postId: string): Promise<UpdateResult> {
     const response = await this._postsConnection.updateOne(
       { post_id: postId },
       { $set: { title: post.title, body: post.body } }
