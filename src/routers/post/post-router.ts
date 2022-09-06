@@ -2,10 +2,10 @@
 import { Router } from "express";
 
 // Local
-import { PostController } from "@controllers/index";
-import { createPostValidator, editPostValidator } from "@domain/validators";
-import { dependenciesContainer } from "@infrastructure/DI";
-import { postValidatorMiddleware } from "@middlewares/index";
+import PostController from "@controllers/post/post-controller";
+import PostValidator from "@domain/validators/post-validator";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import postValidatorMiddleware from "@middlewares/post/post-middleware";
 
 const postRouter = Router();
 
@@ -16,13 +16,13 @@ postRouter.get("/", postController.getAllPosts.bind(postController));
 postRouter.get("/:id?", postController.getPostById.bind(postController));
 postRouter.post(
   "/",
-  createPostValidator,
+  PostValidator.createPostSchema,
   postValidatorMiddleware,
   postController.createPost.bind(postController)
 );
 postRouter.put(
   "/:id?",
-  editPostValidator,
+  PostValidator.editPostSchema,
   postValidatorMiddleware,
   postController.editPost.bind(postController)
 );

@@ -2,26 +2,34 @@
 import { v4 as uuidv4 } from "uuid";
 
 // Local
-import { IPostService } from "@core/services";
-import { PostModel } from "@domain/models";
-import { ResponseModel } from "@domain/models/";
-import { PostInput } from "@domain/types";
-import { dependenciesContainer } from "@infrastructure/DI";
-import { MongoRepository } from "@repositories/index";
+import IPostService from "@core/services/post/i-post-service";
+import IPostRepository from "@core/repositories/post/i-post-repository";
+import IUserRepository from "@core/repositories/user/i-user-repository";
+import PostModel from "@domain/models/post/post-model";
+import ResponseModel from "@domain/models/response/response-model";
+import PostInput from "@domain/types/post/post-input";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import PostRepository from "@repositories/post/post-repository";
+import UserRepository from "@repositories/user/user-repository";
 
 class PostService implements IPostService {
-  private _mongoRepository: MongoRepository;
+  private _postRepository: IPostRepository;
+  private _userRepository: IUserRepository;
 
   constructor(
-    mongoRepository: MongoRepository = dependenciesContainer.repositories.mongoRepository.injectClass(
-      MongoRepository
+    postRepository: IPostRepository = dependenciesContainer.repositories.postRepository.injectClass(
+      PostRepository
+    ),
+    userRepository: IUserRepository = dependenciesContainer.repositories.userRepository.injectClass(
+      UserRepository
     )
   ) {
-    this._mongoRepository = mongoRepository;
+    this._postRepository = postRepository;
+    this._userRepository = userRepository;
   }
 
   async getAllPosts(): Promise<ResponseModel> {
-    const posts = await this._mongoRepository.getAllPosts();
+    const posts = await this._postRepository.getAllPosts();
 
     const responseModel: ResponseModel = {
       statusCode: 200,
@@ -33,7 +41,7 @@ class PostService implements IPostService {
   }
 
   async getPostById(postId: string): Promise<ResponseModel> {
-    const post = await this._mongoRepository.getPostById(postId);
+    const post = await this._postRepository.getPostById(postId);
 
     if (!post) {
       const responseModel: ResponseModel = {
@@ -56,7 +64,7 @@ class PostService implements IPostService {
 
   async createPost(post: PostInput): Promise<ResponseModel> {
     const userId = post.userId;
-    const user = await this._mongoRepository.getUserById(userId);
+    const user = await this._userRepository.getUserById(userId);
 
     if (!user) {
       const responseModel: ResponseModel = {
@@ -78,7 +86,7 @@ class PostService implements IPostService {
       createdAt: createdAt,
     };
 
-    await this._mongoRepository.createPost(postObject);
+    await this._postRepository.createPost(postObject);
 
     const responseModel: ResponseModel = {
       statusCode: 201,
@@ -93,7 +101,7 @@ class PostService implements IPostService {
     postChanges: PostInput,
     postId: string
   ): Promise<ResponseModel> {
-    const wasPostUpdated = await this._mongoRepository.editPost(
+    const wasPostUpdated = await this._postRepository.editPost(
       postChanges,
       postId
     );
@@ -122,4 +130,4 @@ class PostService implements IPostService {
   }
 }
 
-export { PostService };
+export default PostService;

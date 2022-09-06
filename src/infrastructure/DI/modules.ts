@@ -2,37 +2,41 @@
 import { createInjector } from "typed-inject";
 
 // Local
-import { MongoRepository } from "@repositories/index";
-import { PostService, UserService } from "@services/index";
+import PostService from "@services/post/post-service";
+import { UserService } from "@services/index";
+import PostRepository from "@repositories/post/post-repository";
+import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 
 const dependenciesContainer = {
-    controllers: {
-        postController: createInjector()
-            .provideValue("postService", PostService)
-            .provideClass("mongoRepository", MongoRepository),
-        userController: createInjector()
-            .provideValue("userService", UserService)
-            .provideClass("mongoRepository", MongoRepository),
-    },
+  controllers: {
+    postController: createInjector()
+      .provideValue("postService", PostService)
+      .provideClass("postRepository", PostRepository),
+    userController: createInjector()
+      .provideValue("userService", UserService)
+      .provideClass("mongoRepository", BaseMongoRepository),
+  },
 
-    infrastructure: {
-        mongoInfrastructure: createInjector(),
-    },
+  infrastructure: {
+    mongoInfrastructure: createInjector(),
+  },
 
-    services: {
-        postService: createInjector().provideClass(
-            "mongoRepository",
-            MongoRepository
-        ),
-        userService: createInjector().provideClass(
-            "mongoRepository",
-            MongoRepository
-        ),
-    },
+  services: {
+    postService: createInjector().provideClass(
+      "postRepository",
+      PostRepository
+    ),
+    userService: createInjector().provideClass(
+      "mongoRepository",
+      BaseMongoRepository
+    ),
+  },
 
-    repositories: {
-        mongoRepository: createInjector(),
-    },
+  repositories: {
+    baseMongoRepository: createInjector(),
+    postRepository: createInjector(),
+    userRepository: createInjector(),
+  },
 };
 
-export { dependenciesContainer };
+export default dependenciesContainer;
