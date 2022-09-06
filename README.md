@@ -42,6 +42,12 @@ Microsserviço utilizando TypeScript/Node feito com o objetivo de praticar a lin
 {host}:{port}/posts/{id} - Edita um post existente de acordo com o body enviado - {"title": string, "body: string}
 ```
 
+#### DELETE
+
+```
+{host}:{port}/posts/{id} - Deleta um post de acordo com o id enviado na rota
+```
+
 <hr>
 
 ### PARA EXECUTAR :calling:
