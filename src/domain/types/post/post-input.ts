@@ -1,7 +1,7 @@
 type PostInput = {
-    title: string;
-    body: string;
-    userId?: string;
+  title: string;
+  body: string;
+  userId?: string;
 };
 
-export { PostInput };
+export default PostInput;

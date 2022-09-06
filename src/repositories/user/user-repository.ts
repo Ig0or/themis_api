@@ -3,10 +3,11 @@ import { camelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
 // Local
+import IUserRepository from "@core/repositories/user/i-user-repository";
 import UserModel from "@domain/models/user/user-model";
 import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 
-class UserRepository extends BaseMongoRepository {
+class UserRepository extends BaseMongoRepository implements IUserRepository {
   private _usersConnection: Collection;
 
   constructor() {
