@@ -21,10 +21,11 @@ postRouter.post(
   postController.createPost.bind(postController)
 );
 postRouter.put(
-  "/:id?",
+  "/:id",
   PostValidator.editPostSchema,
   postValidatorMiddleware,
   postController.editPost.bind(postController)
 );
+postRouter.delete("/:id", postController.deletePost.bind(postController));
 
 export { postRouter };

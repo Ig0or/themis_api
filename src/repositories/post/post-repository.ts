@@ -1,6 +1,6 @@
 // Third Party
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { Collection, UpdateResult } from "mongodb";
+import { Collection, DeleteResult, UpdateResult } from "mongodb";
 
 // Local
 import IPostRepository from "@core/repositories/post/i-post-repository";
@@ -65,6 +65,12 @@ class PostRepository extends BaseMongoRepository implements IPostRepository {
       { post_id: postId },
       { $set: { title: post.title, body: post.body } }
     );
+
+    return response;
+  }
+
+  async deletePost(postId: string): Promise<DeleteResult> {
+    const response = await this._postsConnection.deleteOne({ post_id: postId });
 
     return response;
   }

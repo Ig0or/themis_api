@@ -58,6 +58,16 @@ class PostController implements IPostController {
 
     return response.status(responseModel.statusCode).json(responseModel);
   }
+
+  async deletePost(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const postId = request.params.id;
+    const responseModel = await this._postService.deletePost(postId);
+
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 }
 
 export default PostController;

@@ -128,6 +128,26 @@ class PostService implements IPostService {
 
     return responseModel;
   }
+
+  async deletePost(postId: string): Promise<ResponseModel> {
+    const wasPostDeleted = await this._postRepository.deletePost(postId);
+
+    let responseModel: ResponseModel = {
+      statusCode: 500,
+      success: false,
+      result: "The post wasn't deleted.",
+    };
+
+    if (wasPostDeleted.deletedCount === 1) {
+      responseModel = {
+        statusCode: 200,
+        success: true,
+        message: "This post was deleted",
+      };
+    }
+
+    return responseModel;
+  }
 }
 
 export default PostService;

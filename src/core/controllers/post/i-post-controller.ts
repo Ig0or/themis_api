@@ -24,6 +24,11 @@ interface IPostController {
     request: Request,
     response: Response
   ): Promise<Response<ResponseModel>>;
+
+  deletePost(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>>;
 }
 
 export default IPostController;

@@ -10,6 +10,8 @@ interface IPostService {
   createPost(post: PostInput): Promise<ResponseModel>;
 
   editPost(postChanges: PostInput, postId: string): Promise<ResponseModel>;
+
+  deletePost(postId: string): Promise<ResponseModel>;
 }
 
 export default IPostService;

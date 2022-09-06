@@ -1,5 +1,5 @@
 // Third Party
-import { UpdateResult } from "mongodb";
+import { DeleteResult, UpdateResult } from "mongodb";
 
 // Local
 import PostModel from "@domain/models/post/post-model";
@@ -15,6 +15,8 @@ interface IPostRepository {
   editPost(post: PostInput, postId: string): Promise<UpdateResult>;
 
   getPostsByUserId(userId: string): Promise<Array<PostModel>>;
+
+  deletePost(postId: string): Promise<DeleteResult>;
 }
 
 export default IPostRepository;
