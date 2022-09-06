@@ -1,1 +1,1 @@
-export * from "./mongodb/mongodb-repository";
+export * from "./base/mongodb/base-repository";
