@@ -1,6 +1,6 @@
 // Local
-import { ResponseModel } from "@domain/models";
-import { PostInput } from "@domain/types";
+import ResponseModel from "@domain/models/response/response-model";
+import PostInput from "@domain/types/post/post-input";
 
 interface IPostService {
   getAllPosts(): Promise<ResponseModel>;
@@ -12,4 +12,4 @@ interface IPostService {
   editPost(postChanges: PostInput, postId: string): Promise<ResponseModel>;
 }
 
-export { IPostService };
+export default IPostService;
