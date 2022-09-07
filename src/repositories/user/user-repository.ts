@@ -21,11 +21,22 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
   }
 
   async getAllUsers(): Promise<Array<UserModel>> {
-    const response = this._usersConnection.find({}, { projection: { _id: 0 } });
-    const arrayUsers = await response.toArray();
-    const camelizedUsers: any = camelizeKeys(arrayUsers);
+    const response = await this._usersConnection
+      .find({}, { projection: { _id: 0 } })
+      .toArray();
+    const camelizedUsers: any = camelizeKeys(response);
 
-    return camelizedUsers;
+    const arrayUsersModel = camelizedUsers.map((user) => {
+      const userModel: UserModel = {
+        userId: user.userId || "",
+        userName: user.userName || "",
+        createdAt: user.createdAt || "",
+      };
+
+      return userModel;
+    });
+
+    return arrayUsersModel;
   }
 
   async getUserById(userId: string): Promise<UserModel> {
@@ -33,9 +44,17 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
       { user_id: userId },
       { projection: { _id: 0 } }
     );
-    const camelizedUser: any = camelizeKeys(response);
 
-    return camelizedUser;
+    if (response) {
+      const camelizedUser: any = camelizeKeys(response);
+      const userModel: UserModel = {
+        userId: camelizedUser.userId || "",
+        userName: camelizedUser.userName || "",
+        createdAt: camelizedUser.createdAt || "",
+      };
+
+      return userModel;
+    }
   }
 }
 
