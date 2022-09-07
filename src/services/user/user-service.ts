@@ -1,36 +1,68 @@
 // Local
-import { UserModel } from "@domain/models";
-import { dependenciesContainer } from "@infrastructure/DI";
-import { MongoRepository } from "@repositories/index";
+import IPostRepository from "@core/repositories/post/i-post-repository";
+import IUserRepository from "@core/repositories/user/i-user-repository";
+import ResponseModel from "@domain/models/response/response-model";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import PostRepository from "@repositories/post/post-repository";
+import UserRepository from "@repositories/user/user-repository";
 
 class UserService {
-    _mongoRepository: MongoRepository;
-    constructor(
-        mongoRepository: MongoRepository = dependenciesContainer.repositories.mongoRepository.injectClass(
-            MongoRepository
-        )
-    ) {
-        this._mongoRepository = mongoRepository;
+  private _userRepository: IUserRepository;
+  private _postRepository: IPostRepository;
+
+  constructor(
+    userRepository: IUserRepository = dependenciesContainer.repositories.userRepository.injectClass(
+      UserRepository
+    ),
+    postRepository: IPostRepository = dependenciesContainer.repositories.postRepository.injectClass(
+      PostRepository
+    )
+  ) {
+    this._userRepository = userRepository;
+    this._postRepository = postRepository;
+  }
+
+  async getAllUsers(): Promise<ResponseModel> {
+    let responseModel: ResponseModel = {
+      statusCode: 200,
+      success: true,
+    };
+
+    try {
+      const users = await this._userRepository.getAllUsers();
+      responseModel.result = users;
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
     }
 
-    async getAllUsers(): Promise<Array<UserModel>> {
-        const posts = await this._mongoRepository.getAllUsers();
+    return responseModel;
+  }
 
-        return posts;
+  async getUserById(userId: string): Promise<ResponseModel> {
+    let responseModel: ResponseModel = {
+      statusCode: 200,
+      success: true,
+    };
+
+    try {
+      const user = await this._userRepository.getUserById(userId);
+
+      if (user) {
+        const userPosts = await this._postRepository.getPostsByUserId(userId);
+        user.posts = userPosts;
+      }
+
+      responseModel.result = user || {};
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
     }
 
-    async getUserById(userId: string): Promise<UserModel> {
-        const user = await this._mongoRepository.getUserById(userId);
-
-        if (user) {
-            const userPosts = await this._mongoRepository.getPostsByUserId(
-                userId
-            );
-            user.posts = userPosts;
-        }
-
-        return user;
-    }
+    return responseModel;
+  }
 }
 
-export { UserService };
+export default UserService;
