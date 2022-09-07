@@ -65,36 +65,42 @@ class PostService implements IPostService {
   }
 
   async createPost(post: PostInput): Promise<ResponseModel> {
-    const userId = post.userId;
-    const user = await this._userRepository.getUserById(userId);
-
-    if (!user) {
-      const responseModel: ResponseModel = {
-        statusCode: 404,
-        success: false,
-        message: "The post wasn't created because this user doesn't exist.",
-      };
-
-      return responseModel;
-    }
-
-    const postId = uuidv4();
-    const createdAt = Date.now();
-    const postObject: PostModel = {
-      title: post.title,
-      body: post.body,
-      userId: post.userId,
-      postId: postId,
-      createdAt: createdAt,
-    };
-
-    await this._postRepository.createPost(postObject);
-
-    const responseModel: ResponseModel = {
+    let responseModel: ResponseModel = {
       statusCode: 201,
       success: true,
-      result: "Post created",
     };
+
+    try {
+      const userId = post.userId;
+      const user = await this._userRepository.getUserById(userId);
+
+      if (!user) {
+        responseModel.statusCode = 404;
+        responseModel.success = false;
+        responseModel.message =
+          "The post wasn't created because this user doesn't exist.";
+
+        return responseModel;
+      }
+
+      const postId = uuidv4();
+      const createdAt = Date.now();
+      const postObject: PostModel = {
+        postId: postId,
+        userId: post.userId,
+        createdAt: createdAt,
+        title: post.title,
+        body: post.body,
+      };
+
+      await this._postRepository.createPost(postObject);
+
+      responseModel.result = "Post created";
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
 
     return responseModel;
   }
