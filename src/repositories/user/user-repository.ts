@@ -16,7 +16,7 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
     this._usersConnection = this.mongoInfrastructure.getConnection(
       process.env.MONGO_DB_URI!,
       "studies",
-      "user"
+      "users"
     );
   }
 
