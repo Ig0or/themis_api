@@ -7,10 +7,10 @@ import PostValidator from "@domain/validators/post-validator";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import postValidatorMiddleware from "@middlewares/post/post-middleware";
 
-const postRouter = Router();
-
 const postController =
   dependenciesContainer.controllers.postController.injectClass(PostController);
+
+const postRouter = Router();
 
 postRouter.get("/", postController.getAllPosts.bind(postController));
 postRouter.get("/:id?", postController.getPostById.bind(postController));
@@ -28,4 +28,4 @@ postRouter.put(
 );
 postRouter.delete("/:id", postController.deletePost.bind(postController));
 
-export { postRouter };
+export default postRouter;

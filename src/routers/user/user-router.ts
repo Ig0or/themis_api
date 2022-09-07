@@ -2,17 +2,15 @@
 import { Router } from "express";
 
 // Local
-import { UserController } from "@controllers/index";
-import { dependenciesContainer } from "@infrastructure/DI";
+import UserController from "@controllers/user/user-controller";
+import dependenciesContainer from "@infrastructure/DI/modules";
+
+const userController =
+  dependenciesContainer.controllers.userController.injectClass(UserController);
 
 const userRouter = Router();
 
-const userController =
-    dependenciesContainer.controllers.userController.injectClass(
-        UserController
-    );
-
-userRouter.get("/", userController.getAllUSers.bind(userController));
+userRouter.get("/", userController.getAllUsers.bind(userController));
 userRouter.get("/:id?", userController.getUserById.bind(userController));
 
-export { userRouter };
+export default userRouter;
