@@ -2,44 +2,40 @@
 import { Request, Response } from "express";
 
 // Local
-import { UserModel } from "@domain/models";
-import { dependenciesContainer } from "@infrastructure/DI";
-import { UserService } from "@services/index";
+import UserModel from "@domain/models/user/user-model";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import UserService from "@services/user/user-service";
+import ResponseModel from "@domain/models/response/response-model";
 
 class UserController {
-    private _userService: UserService;
-    constructor(
-        userService: UserService = dependenciesContainer.services.postService.injectClass(
-            UserService
-        )
-    ) {
-        this._userService = userService;
-    }
+  private _userService: UserService;
 
-    async getAllUSers(
-        request: Request,
-        response: Response
-    ): Promise<Response<Array<UserModel>>> {
-        const users = await this._userService.getAllUsers();
+  constructor(
+    userService: UserService = dependenciesContainer.services.postService.injectClass(
+      UserService
+    )
+  ) {
+    this._userService = userService;
+  }
 
-        return response.json(users);
-    }
+  async getAllUsers(
+    request: Request,
+    response: Response
+  ): Promise<Response<Array<UserModel>>> {
+    const responseModel = await this._userService.getAllUsers();
 
-    async getUserById(
-        request: Request,
-        response: Response
-    ): Promise<Response<UserModel>> {
-        const userId = request.params.id;
-        const user = await this._userService.getUserById(userId);
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 
-        if (!user) {
-            const responseMessage = "This user doesn't exist";
+  async getUserById(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const userId = request.params.id;
+    const responseModel = await this._userService.getUserById(userId);
 
-            return response.status(404).json(responseMessage);
-        }
-
-        return response.json(user);
-    }
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 }
 
-export { UserController };
+export default UserController;

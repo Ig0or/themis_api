@@ -4,10 +4,12 @@ import express, { Express } from "express";
 import figlet from "figlet";
 
 // Local
-import { postRouter } from "@routers/post/post-router";
+import postRouter from "@routers/post/post-router";
+import userRouter from "@routers/user/user-router";
 
 function applyBaseRoutes(server: Express): void {
   server.use("/posts", postRouter);
+  server.use("/users", userRouter);
 }
 
 function buildServer(): Express {
