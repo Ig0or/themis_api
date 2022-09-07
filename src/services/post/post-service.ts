@@ -29,35 +29,37 @@ class PostService implements IPostService {
   }
 
   async getAllPosts(): Promise<ResponseModel> {
-    const posts = await this._postRepository.getAllPosts();
-
-    const responseModel: ResponseModel = {
+    let responseModel: ResponseModel = {
       statusCode: 200,
       success: true,
-      result: posts,
     };
+
+    try {
+      const posts = await this._postRepository.getAllPosts();
+      responseModel.result = posts;
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
 
     return responseModel;
   }
 
   async getPostById(postId: string): Promise<ResponseModel> {
-    const post = await this._postRepository.getPostById(postId);
-
-    if (!post) {
-      const responseModel: ResponseModel = {
-        statusCode: 404,
-        success: false,
-        message: "This post doesn't exist.",
-      };
-
-      return responseModel;
-    }
-
-    const responseModel: ResponseModel = {
+    let responseModel: ResponseModel = {
       statusCode: 200,
       success: true,
-      result: post,
     };
+
+    try {
+      const post = await this._postRepository.getPostById(postId);
+      responseModel.result = post || {};
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
 
     return responseModel;
   }
