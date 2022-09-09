@@ -1,1 +1,1 @@
-export * from "./post/post-middleware";
+export * from "./validator/validator-middleware";

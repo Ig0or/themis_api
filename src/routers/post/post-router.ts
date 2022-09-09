@@ -3,9 +3,9 @@ import { Router } from "express";
 
 // Local
 import PostController from "@controllers/post/post-controller";
-import PostValidator from "@domain/validators/post-validator";
+import PostValidator from "@domain/validators/post/post-validator";
 import dependenciesContainer from "@infrastructure/DI/modules";
-import postValidatorMiddleware from "@middlewares/post/post-middleware";
+import validatorMiddleware from "@middlewares/validator/validator-middleware";
 
 const postController =
   dependenciesContainer.controllers.postController.injectClass(PostController);
@@ -17,13 +17,13 @@ postRouter.get("/:id?", postController.getPostById.bind(postController));
 postRouter.post(
   "/",
   PostValidator.createPostSchema,
-  postValidatorMiddleware,
+  validatorMiddleware,
   postController.createPost.bind(postController)
 );
 postRouter.put(
   "/:id",
   PostValidator.editPostSchema,
-  postValidatorMiddleware,
+  validatorMiddleware,
   postController.editPost.bind(postController)
 );
 postRouter.delete("/:id", postController.deletePost.bind(postController));
