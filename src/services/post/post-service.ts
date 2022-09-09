@@ -5,12 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 import IPostService from "@core/services/post/i-post-service";
 import IPostRepository from "@core/repositories/post/i-post-repository";
 import IUserRepository from "@core/repositories/user/i-user-repository";
+import editPostResponseModelMap from "@domain/maps/post/edit-post-response-map";
 import PostModel from "@domain/models/post/post-model";
 import ResponseModel from "@domain/models/response/response-model";
 import PostInput from "@domain/types/post/post-input";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
+import removePostResponseModelMap from "@domain/maps/post/remove-post-response-map";
 
 class PostService implements IPostService {
   private _postRepository: IPostRepository;
@@ -106,20 +108,17 @@ class PostService implements IPostService {
   }
 
   async deletePost(postId: string): Promise<ResponseModel> {
-    const wasPostDeleted = await this._postRepository.deletePost(postId);
+    let responseModel: ResponseModel;
 
-    let responseModel: ResponseModel = {
-      statusCode: 500,
-      success: false,
-      result: "The post wasn't deleted.",
-    };
-
-    if (wasPostDeleted.deletedCount === 1) {
-      responseModel = {
-        statusCode: 200,
-        success: true,
-        message: "This post was deleted",
-      };
+    try {
+      const wasPostDeleted = await this._postRepository.deletePost(postId);
+      responseModel = removePostResponseModelMap.get(
+        wasPostDeleted.deletedCount
+      );
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
     }
 
     return responseModel;
@@ -154,35 +153,8 @@ class PostService implements IPostService {
     modifiedCount: Number,
     matchedCount: Number
   ): ResponseModel {
-    const responseMap: Map<string, ResponseModel> = new Map([
-      [
-        "0, 0",
-        {
-          statusCode: 200,
-          success: false,
-          result: "This post id doesn't exist",
-        },
-      ],
-      [
-        "0, 1",
-        {
-          statusCode: 200,
-          success: false,
-          result: "The post wasn't updated.",
-        },
-      ],
-      [
-        "1, 1",
-        {
-          statusCode: 201,
-          success: true,
-          result: "The post was updated.",
-        },
-      ],
-    ]);
-
-    const responseKey = `${modifiedCount}, ${matchedCount}`;
-    const responseModelResult = responseMap.get(responseKey);
+    const responseModelKey = `${modifiedCount}, ${matchedCount}`;
+    const responseModelResult = editPostResponseModelMap.get(responseModelKey);
 
     return responseModelResult;
   }
