@@ -20,5 +20,6 @@ userRouter.post(
   validatorMiddleware,
   userController.createUser.bind(userController)
 );
+userRouter.delete("/:id", userController.deleteUser);
 
 export default userRouter;

@@ -1,1 +1,1 @@
-export * from "./post-validator";
+export * from "./post/post-validator";

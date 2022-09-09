@@ -1,6 +1,6 @@
 // Third Party
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { Collection } from "mongodb";
+import { Collection, DeleteResult } from "mongodb";
 
 // Local
 import IUserRepository from "@core/repositories/user/i-user-repository";
@@ -62,6 +62,12 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
     await this._usersConnection.insertOne(decamelizePost);
 
     return;
+  }
+
+  async deleteUser(userId: string): Promise<DeleteResult> {
+    const response = await this._usersConnection.deleteOne({ user_id: userId });
+
+    return response;
   }
 }
 

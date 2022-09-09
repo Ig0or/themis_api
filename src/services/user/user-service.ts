@@ -94,6 +94,25 @@ class UserService implements IUserService {
 
     return responseModel;
   }
+
+  async deleteUser(userId: string) {
+    let responseModel: ResponseModel = {
+      statusCode: 200,
+      success: true,
+    };
+
+    try {
+      const werePostsDeleted = this._postRepository.deletePostByUserId(userId);
+
+      console.log(werePostsDeleted);
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
+
+    return responseModel;
+  }
 }
 
 export default UserService;

@@ -47,6 +47,16 @@ class UserController implements IUserController {
 
     return response.status(responseModel.statusCode).json(responseModel);
   }
+
+  async deleteUser(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const userId = request.params.id;
+    const responseModel = await this._userService.deleteUser(userId);
+
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 }
 
 export default UserController;
