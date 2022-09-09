@@ -150,7 +150,7 @@ class PostService implements IPostService {
     return responseModel;
   }
 
-  protected _editPostGetResponseModel(
+  private _editPostGetResponseModel(
     modifiedCount: Number,
     matchedCount: Number
   ): ResponseModel {
