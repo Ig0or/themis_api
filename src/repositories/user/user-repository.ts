@@ -1,5 +1,5 @@
 // Third Party
-import { camelizeKeys } from "humps";
+import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection } from "mongodb";
 
 // Local
@@ -55,6 +55,13 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
 
       return userModel;
     }
+  }
+
+  async createUser(user: UserModel): Promise<void> {
+    const decamelizePost = decamelizeKeys(user);
+    await this._usersConnection.insertOne(decamelizePost);
+
+    return;
   }
 }
 
