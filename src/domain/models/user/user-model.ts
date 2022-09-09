@@ -2,9 +2,9 @@
 import PostModel from "@domain/models/post/post-model";
 
 type UserModel = {
-  userId?: string;
+  userId: string;
   userName: string;
-  createdAt?: number;
+  createdAt: number;
   posts?: Array<PostModel>;
 };
 
