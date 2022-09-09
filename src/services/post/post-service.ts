@@ -105,38 +105,6 @@ class PostService implements IPostService {
     return responseModel;
   }
 
-  async editPost(
-    postChanges: PostInput,
-    postId: string
-  ): Promise<ResponseModel> {
-    const wasPostUpdated = await this._postRepository.editPost(
-      postChanges,
-      postId
-    );
-
-    let responseModel: ResponseModel = {
-      statusCode: 500,
-      success: false,
-      result: "The post wasn't updated.",
-    };
-
-    if (wasPostUpdated.matchedCount === 0) {
-      responseModel = {
-        statusCode: 404,
-        success: false,
-        message: "This post id doesn't exist",
-      };
-    } else if (wasPostUpdated.modifiedCount === 1) {
-      responseModel = {
-        statusCode: 201,
-        success: true,
-        result: "The post was updated.",
-      };
-    }
-
-    return responseModel;
-  }
-
   async deletePost(postId: string): Promise<ResponseModel> {
     const wasPostDeleted = await this._postRepository.deletePost(postId);
 
@@ -155,6 +123,68 @@ class PostService implements IPostService {
     }
 
     return responseModel;
+  }
+
+  async editPost(
+    postChanges: PostInput,
+    postId: string
+  ): Promise<ResponseModel> {
+    let responseModel: ResponseModel;
+
+    try {
+      const wasPostUpdated = await this._postRepository.editPost(
+        postChanges,
+        postId
+      );
+
+      responseModel = this._editPostGetResponseModel(
+        wasPostUpdated.modifiedCount,
+        wasPostUpdated.matchedCount
+      );
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
+
+    return responseModel;
+  }
+
+  protected _editPostGetResponseModel(
+    modifiedCount: Number,
+    matchedCount: Number
+  ): ResponseModel {
+    const responseMap: Map<string, ResponseModel> = new Map([
+      [
+        "0, 0",
+        {
+          statusCode: 200,
+          success: false,
+          result: "This post id doesn't exist",
+        },
+      ],
+      [
+        "0, 1",
+        {
+          statusCode: 200,
+          success: false,
+          result: "The post wasn't updated.",
+        },
+      ],
+      [
+        "1, 1",
+        {
+          statusCode: 201,
+          success: true,
+          result: "The post was updated.",
+        },
+      ],
+    ]);
+
+    const responseKey = `${modifiedCount}, ${matchedCount}`;
+    const responseModelResult = responseMap.get(responseKey);
+
+    return responseModelResult;
   }
 }
 
