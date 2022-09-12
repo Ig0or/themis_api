@@ -105,12 +105,12 @@ class PostRepository extends BaseMongoRepository implements IPostRepository {
     return response;
   }
 
-  async deletePostByUserId(userId: string): Promise<DeleteResult> {
-    const response = await this._postsConnection.deleteMany({
+  async deletePostsByUserId(userId: string): Promise<void> {
+    await this._postsConnection.deleteMany({
       user_id: userId,
     });
 
-    return response;
+    return;
   }
 }
 

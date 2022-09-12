@@ -17,6 +17,8 @@ interface IPostRepository {
   getPostsByUserId(userId: string): Promise<Array<PostModel>>;
 
   deletePost(postId: string): Promise<DeleteResult>;
+
+  deletePostsByUserId(userId: string): Promise<void>;
 }
 
 export default IPostRepository;

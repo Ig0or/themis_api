@@ -1,13 +1,13 @@
 // Local
 import ResponseModel from "@domain/models/response/response-model";
 
-const removePostResponseModelMap: Map<number, ResponseModel> = new Map([
+const removeUserResponseModelMap: Map<number, ResponseModel> = new Map([
   [
     0,
     {
       statusCode: 200,
       success: false,
-      result: "The post doesn't exist or wasn't deleted.",
+      result: "The user doesn't exist or wasn't deleted.",
     },
   ],
   [
@@ -15,9 +15,9 @@ const removePostResponseModelMap: Map<number, ResponseModel> = new Map([
     {
       statusCode: 200,
       success: true,
-      message: "The post was deleted",
+      message: "The user was deleted",
     },
   ],
 ]);
 
-export default removePostResponseModelMap;
+export default removeUserResponseModelMap;

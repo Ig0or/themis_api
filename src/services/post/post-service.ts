@@ -6,13 +6,13 @@ import IPostService from "@core/services/post/i-post-service";
 import IPostRepository from "@core/repositories/post/i-post-repository";
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import editPostResponseModelMap from "@domain/maps/post/edit-post-response-map";
+import removePostResponseModelMap from "@domain/maps/post/remove-post-response-map";
 import PostModel from "@domain/models/post/post-model";
 import ResponseModel from "@domain/models/response/response-model";
 import PostInput from "@domain/types/post/post-input";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
-import removePostResponseModelMap from "@domain/maps/post/remove-post-response-map";
 
 class PostService implements IPostService {
   private _postRepository: IPostRepository;

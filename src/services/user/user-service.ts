@@ -1,14 +1,17 @@
+// Third Party
+import { v4 as uuidv4 } from "uuid";
+
 // Local
 import IPostRepository from "@core/repositories/post/i-post-repository";
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import IUserService from "@core/services/user/i-user-service";
+import removeUserResponseModelMap from "@domain/maps/user/remove-user-response-map";
 import ResponseModel from "@domain/models/response/response-model";
+import UserModel from "@domain/models/user/user-model";
+import UserInput from "@domain/types/user/user-input";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
-import UserInput from "@domain/types/user/user-input";
-import { v4 as uuidv4 } from "uuid";
-import UserModel from "@domain/models/user/user-model";
 
 class UserService implements IUserService {
   private _userRepository: IUserRepository;
@@ -95,16 +98,15 @@ class UserService implements IUserService {
     return responseModel;
   }
 
-  async deleteUser(userId: string) {
-    let responseModel: ResponseModel = {
-      statusCode: 200,
-      success: true,
-    };
+  async deleteUser(userId: string): Promise<ResponseModel> {
+    let responseModel: ResponseModel;
 
     try {
-      const werePostsDeleted = this._postRepository.deletePostByUserId(userId);
-
-      console.log(werePostsDeleted);
+      await this._postRepository.deletePostsByUserId(userId);
+      const wasUserDeleted = await this._userRepository.deleteUser(userId);
+      responseModel = removeUserResponseModelMap.get(
+        wasUserDeleted.deletedCount
+      );
     } catch (error) {
       responseModel.statusCode = 500;
       responseModel.success = false;

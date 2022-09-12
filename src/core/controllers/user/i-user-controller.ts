@@ -20,6 +20,11 @@ interface IUserController {
     request: Request,
     response: Response
   ): Promise<Response<ResponseModel>>;
+
+  deleteUser(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>>;
 }
 
 export default IUserController;

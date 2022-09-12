@@ -8,6 +8,8 @@ interface IUserService {
   getUserById(userId: string): Promise<ResponseModel>;
 
   createUser(user: UserInput): Promise<ResponseModel>;
+
+  deleteUser(userId: string): Promise<ResponseModel>;
 }
 
 export default IUserService;
