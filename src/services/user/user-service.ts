@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import IPostRepository from "@core/repositories/post/i-post-repository";
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import IUserService from "@core/services/user/i-user-service";
+import editUserResponseModelMap from "@domain/maps/user/edit-user-response-map";
 import removeUserResponseModelMap from "@domain/maps/user/remove-user-response-map";
 import ResponseModel from "@domain/models/response/response-model";
 import UserModel from "@domain/models/user/user-model";
@@ -114,6 +115,41 @@ class UserService implements IUserService {
     }
 
     return responseModel;
+  }
+
+  async editUser(
+    userChanges: UserInput,
+    userId: string
+  ): Promise<ResponseModel> {
+    let responseModel: ResponseModel;
+
+    try {
+      const wasUserUpdated = await this._userRepository.editUser(
+        userChanges,
+        userId
+      );
+
+      responseModel = this._editUserGetResponseModel(
+        wasUserUpdated.modifiedCount,
+        wasUserUpdated.matchedCount
+      );
+    } catch (error) {
+      responseModel.statusCode = 500;
+      responseModel.success = false;
+      responseModel.message = "We have some problems. Try again later.";
+    }
+
+    return responseModel;
+  }
+
+  private _editUserGetResponseModel(
+    modifiedCount: Number,
+    matchedCount: Number
+  ): ResponseModel {
+    const responseModelKey = `${modifiedCount}, ${matchedCount}`;
+    const responseModelResult = editUserResponseModelMap.get(responseModelKey);
+
+    return responseModelResult;
   }
 }
 

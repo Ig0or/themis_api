@@ -57,6 +57,17 @@ class UserController implements IUserController {
 
     return response.status(responseModel.statusCode).json(responseModel);
   }
+
+  async editUser(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>> {
+    const bodyParams = request.body;
+    const userId = request.params.id;
+    const responseModel = await this._userService.editUser(bodyParams, userId);
+
+    return response.status(responseModel.statusCode).json(responseModel);
+  }
 }
 
 export default UserController;

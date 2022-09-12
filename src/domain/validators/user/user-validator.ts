@@ -2,7 +2,7 @@
 import { checkSchema } from "express-validator";
 
 class UserValidator {
-  static createUserSchema = checkSchema({
+  static userSchema = checkSchema({
     userName: {
       isString: true,
       errorMessage: "Invalid params",

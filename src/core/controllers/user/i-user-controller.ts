@@ -25,6 +25,11 @@ interface IUserController {
     request: Request,
     response: Response
   ): Promise<Response<ResponseModel>>;
+
+  editUser(
+    request: Request,
+    response: Response
+  ): Promise<Response<ResponseModel>>;
 }
 
 export default IUserController;

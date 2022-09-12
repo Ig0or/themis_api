@@ -16,10 +16,16 @@ userRouter.get("/", userController.getAllUsers.bind(userController));
 userRouter.get("/:id?", userController.getUserById.bind(userController));
 userRouter.post(
   "/",
-  UserValidator.createUserSchema,
+  UserValidator.userSchema,
   validatorMiddleware,
   userController.createUser.bind(userController)
 );
 userRouter.delete("/:id", userController.deleteUser.bind(userController));
+userRouter.put(
+  "/:id",
+  UserValidator.userSchema,
+  validatorMiddleware,
+  userController.editUser.bind(userController)
+);
 
 export default userRouter;

@@ -1,11 +1,12 @@
 // Third Party
 import { camelizeKeys, decamelizeKeys } from "humps";
-import { Collection, DeleteResult } from "mongodb";
+import { Collection, DeleteResult, UpdateResult } from "mongodb";
 
 // Local
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import UserModel from "@domain/models/user/user-model";
 import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
+import UserInput from "@domain/types/user/user-input";
 
 class UserRepository extends BaseMongoRepository implements IUserRepository {
   private _usersConnection: Collection;
@@ -66,6 +67,15 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
 
   async deleteUser(userId: string): Promise<DeleteResult> {
     const response = await this._usersConnection.deleteOne({ user_id: userId });
+
+    return response;
+  }
+
+  async editUser(user: UserInput, userId: string): Promise<UpdateResult> {
+    const response = await this._usersConnection.updateOne(
+      { user_id: userId },
+      { $set: { user_name: user.userName } }
+    );
 
     return response;
   }

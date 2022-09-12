@@ -10,6 +10,8 @@ interface IUserService {
   createUser(user: UserInput): Promise<ResponseModel>;
 
   deleteUser(userId: string): Promise<ResponseModel>;
+
+  editUser(userChanges: UserInput, userId: string): Promise<ResponseModel>;
 }
 
 export default IUserService;

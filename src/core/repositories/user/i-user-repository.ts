@@ -1,8 +1,9 @@
 // Third Party
-import { DeleteResult } from "mongodb";
+import { DeleteResult, UpdateResult } from "mongodb";
 
 // Local
 import UserModel from "@domain/models/user/user-model";
+import UserInput from "@domain/types/user/user-input";
 
 interface IUserRepository {
   getAllUsers(): Promise<Array<UserModel>>;
@@ -12,6 +13,8 @@ interface IUserRepository {
   createUser(user: UserModel): Promise<void>;
 
   deleteUser(userId: string): Promise<DeleteResult>;
+
+  editUser(user: UserInput, userId: string): Promise<UpdateResult>;
 }
 
 export default IUserRepository;
