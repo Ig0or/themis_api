@@ -7,7 +7,7 @@ const removeUserResponseModelMap: Map<number, ResponseModel> = new Map([
     {
       statusCode: 404,
       success: false,
-      result: "This user doesn't exist or wasn't deleted.",
+      message: "This user doesn't exist or wasn't deleted.",
     },
   ],
   [
@@ -15,7 +15,7 @@ const removeUserResponseModelMap: Map<number, ResponseModel> = new Map([
     {
       statusCode: 200,
       success: true,
-      message: "The user was deleted",
+      result: "The user was deleted",
     },
   ],
 ]);

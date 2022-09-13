@@ -108,7 +108,10 @@ class PostService implements IPostService {
   }
 
   async deletePost(postId: string): Promise<ResponseModel> {
-    let responseModel: ResponseModel;
+    let responseModel: ResponseModel = {
+      statusCode: 201,
+      success: true,
+    };
 
     try {
       const wasPostDeleted = await this._postRepository.deletePost(postId);
@@ -128,7 +131,10 @@ class PostService implements IPostService {
     postChanges: PostInput,
     postId: string
   ): Promise<ResponseModel> {
-    let responseModel: ResponseModel;
+    let responseModel: ResponseModel = {
+      statusCode: 201,
+      success: true,
+    };
 
     try {
       const wasPostUpdated = await this._postRepository.editPost(

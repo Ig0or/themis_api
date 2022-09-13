@@ -7,7 +7,7 @@ const editUserResponseModelMap: Map<string, ResponseModel> = new Map([
     {
       statusCode: 404,
       success: false,
-      result: "This user id doesn't exist",
+      message: "This user id doesn't exist",
     },
   ],
   [
@@ -15,7 +15,7 @@ const editUserResponseModelMap: Map<string, ResponseModel> = new Map([
     {
       statusCode: 404,
       success: false,
-      result: "The user wasn't updated.",
+      message: "The user wasn't updated.",
     },
   ],
   [

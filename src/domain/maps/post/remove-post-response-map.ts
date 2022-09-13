@@ -7,7 +7,7 @@ const removePostResponseModelMap: Map<number, ResponseModel> = new Map([
     {
       statusCode: 404,
       success: false,
-      result: "This post doesn't exist or wasn't deleted.",
+      message: "This post doesn't exist or wasn't deleted.",
     },
   ],
   [
@@ -15,7 +15,7 @@ const removePostResponseModelMap: Map<number, ResponseModel> = new Map([
     {
       statusCode: 200,
       success: true,
-      message: "The post was deleted",
+      result: "The post was deleted",
     },
   ],
 ]);

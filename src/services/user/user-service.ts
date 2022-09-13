@@ -100,7 +100,10 @@ class UserService implements IUserService {
   }
 
   async deleteUser(userId: string): Promise<ResponseModel> {
-    let responseModel: ResponseModel;
+    let responseModel: ResponseModel = {
+      statusCode: 201,
+      success: true,
+    };
 
     try {
       await this._postRepository.deletePostsByUserId(userId);
@@ -121,7 +124,10 @@ class UserService implements IUserService {
     userChanges: UserInput,
     userId: string
   ): Promise<ResponseModel> {
-    let responseModel: ResponseModel;
+    let responseModel: ResponseModel = {
+      statusCode: 201,
+      success: true,
+    };
 
     try {
       const wasUserUpdated = await this._userRepository.editUser(
