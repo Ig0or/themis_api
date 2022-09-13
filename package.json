@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "nodemon",
-    "test": "jest"
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "keywords": [],
   "author": "",
