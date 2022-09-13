@@ -3,6 +3,9 @@ import PostModel from "@domain/models/post/post-model";
 import PostInput from "@domain/types/post/post-input";
 import UserModel from "@domain/models/user/user-model";
 
+const validPostIdStub = "cf07919d-32b8-4eb2-80b6-0916acffc8ad";
+const invalidPostIdStub = "invalid id";
+
 const allPostsStub: Array<PostModel> = [
   {
     title: "Titulo do Post",
@@ -46,10 +49,39 @@ const userStub: UserModel = {
   createdAt: 1662986707090,
 };
 
+const validDeletedPostStub = {
+  acknowledged: true,
+  deletedCount: 1,
+};
+
+const invalidDeletedPostStub = {
+  acknowledged: true,
+  deletedCount: 0,
+};
+
+const validPostInputChangesStub: PostInput = {
+  title: "Novo titulo",
+  body: "Novo body",
+};
+
+const validEditedPostStub = {
+  modifiedCount: 1,
+  matchedCount: 1,
+  acknowledged: true,
+  upsertedCount: 1,
+  upsertedId: undefined,
+};
+
 export {
   allPostsStub,
+  invalidPostIdStub,
   invalidPostInputStub,
+  invalidDeletedPostStub,
   userStub,
+  validDeletedPostStub,
+  validEditedPostStub,
+  validPostInputChangesStub,
+  validPostIdStub,
   validPostInputStub,
   postStub,
 };

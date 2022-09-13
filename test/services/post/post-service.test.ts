@@ -2,9 +2,15 @@
 import makeSut from "./make-sut";
 import {
   allPostsStub,
+  invalidDeletedPostStub,
+  invalidPostIdStub,
   invalidPostInputStub,
   postStub,
   userStub,
+  validDeletedPostStub,
+  validEditedPostStub,
+  validPostIdStub,
+  validPostInputChangesStub,
   validPostInputStub,
 } from "./stubs";
 
@@ -46,9 +52,7 @@ describe("Post Service", () => {
     it("Should return response model with post if post ID is valid", async () => {
       postRepositoryInstanceMock.getPostById.mockResolvedValue(postStub);
 
-      const responseModel = await sutPostService.getPostById(
-        "cf07919d-32b8-4eb2-80b6-0916acffc8ad"
-      );
+      const responseModel = await sutPostService.getPostById(validPostIdStub);
 
       expect(responseModel.statusCode).toEqual(200);
       expect(responseModel.success).toEqual(true);
@@ -58,7 +62,7 @@ describe("Post Service", () => {
     it("Should return empty response model if post ID is invalid", async () => {
       postRepositoryInstanceMock.getPostById.mockResolvedValue(undefined);
 
-      const responseModel = await sutPostService.getPostById("invalid id");
+      const responseModel = await sutPostService.getPostById(invalidPostIdStub);
 
       expect(responseModel.statusCode).toEqual(200);
       expect(responseModel.success).toEqual(true);
@@ -68,9 +72,7 @@ describe("Post Service", () => {
     it("Should return response model with error if catch an error", async () => {
       postRepositoryInstanceMock.getPostById.mockRejectedValue(new Error());
 
-      const responseModel = await sutPostService.getPostById(
-        "cf07919d-32b8-4eb2-80b6-0916acffc8ad"
-      );
+      const responseModel = await sutPostService.getPostById(validPostIdStub);
 
       expect(responseModel.statusCode).toEqual(500);
       expect(responseModel.success).toEqual(false);
@@ -103,7 +105,77 @@ describe("Post Service", () => {
 
       expect(responseModel.statusCode).toEqual(201);
       expect(responseModel.success).toEqual(true);
-      expect(responseModel.message).toEqual("Post created");
+      expect(responseModel.result).toEqual("Post created");
+    });
+
+    it("Should return response model with error if catch an error", async () => {
+      userRepositoryInstanceMock.getUserById.mockRejectedValue(new Error());
+
+      const responseModel = await sutPostService.createPost(validPostInputStub);
+
+      expect(postRepositoryInstanceMock.createPost).not.toBeCalled();
+      expect(responseModel.statusCode).toEqual(500);
+      expect(responseModel.success).toEqual(false);
+      expect(responseModel.message).toEqual(
+        "We have some problems. Try again later."
+      );
+    });
+  });
+
+  describe("deletePost", () => {
+    it("Should delete post if post id is valid", async () => {
+      postRepositoryInstanceMock.deletePost.mockResolvedValue(
+        validDeletedPostStub
+      );
+
+      const responseModel = await sutPostService.deletePost(validPostIdStub);
+
+      expect(responseModel.statusCode).toEqual(200);
+      expect(responseModel.success).toEqual(true);
+      expect(responseModel.result).toEqual("The post was deleted");
+    });
+
+    it("Shouldn't delete post if post id is invalid", async () => {
+      postRepositoryInstanceMock.deletePost.mockResolvedValue(
+        invalidDeletedPostStub
+      );
+
+      const responseModel = await sutPostService.deletePost(invalidPostIdStub);
+
+      expect(responseModel.statusCode).toEqual(404);
+      expect(responseModel.success).toEqual(false);
+      expect(responseModel.message).toEqual(
+        "This post doesn't exist or wasn't deleted."
+      );
+    });
+
+    it("Should return response model with error if catch an error", async () => {
+      postRepositoryInstanceMock.deletePost.mockRejectedValue(new Error());
+
+      const responseModel = await sutPostService.deletePost(validPostIdStub);
+
+      expect(responseModel.statusCode).toEqual(500);
+      expect(responseModel.success).toEqual(false);
+      expect(responseModel.message).toEqual(
+        "We have some problems. Try again later."
+      );
+    });
+  });
+
+  describe("editPost", () => {
+    it("Should edit post if postChanges and postId is valid", async () => {
+      postRepositoryInstanceMock.editPost.mockResolvedValue(
+        validEditedPostStub
+      );
+
+      const responseModel = await sutPostService.editPost(
+        validPostInputChangesStub,
+        validPostIdStub
+      );
+
+      expect(responseModel.statusCode).toEqual(201);
+      expect(responseModel.success).toEqual(true);
+      expect(responseModel.result).toEqual("The post was updated.");
     });
   });
 });
