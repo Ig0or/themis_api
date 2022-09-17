@@ -7,7 +7,7 @@ const editPostResponseModelMap: Map<string, ResponseModel> = new Map([
     {
       statusCode: 404,
       success: false,
-      message: "This post id doesn't exist",
+      message: "This post id doesn't exist.",
     },
   ],
   [

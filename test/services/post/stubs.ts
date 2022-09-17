@@ -72,8 +72,17 @@ const validEditedPostStub = {
   upsertedId: undefined,
 };
 
+const invalidEditedPostStub = {
+  modifiedCount: 0,
+  matchedCount: 0,
+  acknowledged: true,
+  upsertedCount: 0,
+  upsertedId: undefined,
+};
+
 export {
   allPostsStub,
+  invalidEditedPostStub,
   invalidPostIdStub,
   invalidPostInputStub,
   invalidDeletedPostStub,

@@ -9,5 +9,5 @@ module.exports = {
     "^@repositories(.*)$": "<rootDir>/src/repositories/$1",
     "^@root(.*)$": "<rootDir>/$1",
   },
-  collectCoverageFrom: ["src/**/*.ts"],
+  collectCoverageFrom: ["src/**/*.ts", "!**/src/infrastructure/DI/**"],
 };

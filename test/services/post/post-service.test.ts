@@ -3,6 +3,7 @@ import makeSut from "./make-sut";
 import {
   allPostsStub,
   invalidDeletedPostStub,
+  invalidEditedPostStub,
   invalidPostIdStub,
   invalidPostInputStub,
   postStub,
@@ -13,6 +14,7 @@ import {
   validPostInputChangesStub,
   validPostInputStub,
 } from "./stubs";
+import PostService from "@services/post/post-service";
 
 describe("Post Service", () => {
   let {
@@ -23,6 +25,7 @@ describe("Post Service", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    new PostService();
   });
 
   describe("getAllPosts", () => {
@@ -163,7 +166,7 @@ describe("Post Service", () => {
   });
 
   describe("editPost", () => {
-    it("Should edit post if postChanges and postId is valid", async () => {
+    it("Should edit post if postId is valid", async () => {
       postRepositoryInstanceMock.editPost.mockResolvedValue(
         validEditedPostStub
       );
@@ -176,6 +179,36 @@ describe("Post Service", () => {
       expect(responseModel.statusCode).toEqual(201);
       expect(responseModel.success).toEqual(true);
       expect(responseModel.result).toEqual("The post was updated.");
+    });
+
+    it("Shouldn't edit post if postId is invalid", async () => {
+      postRepositoryInstanceMock.editPost.mockResolvedValue(
+        invalidEditedPostStub
+      );
+
+      const responseModel = await sutPostService.editPost(
+        validPostInputChangesStub,
+        invalidPostIdStub
+      );
+
+      expect(responseModel.statusCode).toEqual(404);
+      expect(responseModel.success).toEqual(false);
+      expect(responseModel.message).toEqual("This post id doesn't exist");
+    });
+
+    it("Should return response model with error if catch an error", async () => {
+      postRepositoryInstanceMock.editPost.mockRejectedValue(new Error());
+
+      const responseModel = await sutPostService.editPost(
+        validPostInputChangesStub,
+        validPostIdStub
+      );
+
+      expect(responseModel.statusCode).toEqual(500);
+      expect(responseModel.success).toEqual(false);
+      expect(responseModel.message).toEqual(
+        "We have some problems. Try again later."
+      );
     });
   });
 });
