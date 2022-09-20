@@ -193,7 +193,7 @@ describe("Post Service", () => {
 
       expect(responseModel.statusCode).toEqual(404);
       expect(responseModel.success).toEqual(false);
-      expect(responseModel.message).toEqual("This post id doesn't exist");
+      expect(responseModel.message).toEqual("This post id doesn't exist.");
     });
 
     it("Should return response model with error if catch an error", async () => {
