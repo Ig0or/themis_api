@@ -64,7 +64,7 @@ class PostRepository extends BaseMongoRepository implements IPostRepository {
 
   async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
     const response = await this._postsConnection
-      .find({ user_id: userId }, { projection: { _id: 0, user_id: 0 } })
+      .find({ user_id: userId }, { projection: { _id: 0 } })
       .toArray();
     const camelizedPosts: any = camelizeKeys(response);
 
