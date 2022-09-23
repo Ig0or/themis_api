@@ -1,12 +1,17 @@
-import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
-import MongodbInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
 import PostRepository from "@repositories/post/post-repository";
+import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
+
+jest.mock("@infrastructure/mongodb/mongodb-infrastructure");
 
 const makeSut = () => {
   const mongoInfrastructureMock =
     MongoInfrastructure as jest.Mock<MongoInfrastructure>;
   const mongoInfrastructureInstanceMock =
-    new mongoInfrastructureMock() as jest.Mocked<MongodbInfrastructure>;
+    new mongoInfrastructureMock() as jest.Mocked<MongoInfrastructure>;
 
-  const sutPostRepository = new PostRepository();
+  const sutPostRepository = new PostRepository(mongoInfrastructureInstanceMock);
+
+  return { mongoInfrastructureInstanceMock, sutPostRepository };
 };
+
+export default makeSut;
