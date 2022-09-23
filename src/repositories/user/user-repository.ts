@@ -46,22 +46,24 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
     return arrayUsersModel;
   }
 
-  async getUserById(userId: string): Promise<UserModel> {
+  async getUserById(userId: string): Promise<any> {
     const response = await this._usersConnection.findOne(
       { user_id: userId },
       { projection: { _id: 0 } }
     );
 
-    if (response) {
-      const camelizedUser: any = camelizeKeys(response);
-      const userModel: UserModel = {
-        userId: camelizedUser.userId || "",
-        userName: camelizedUser.userName || "",
-        createdAt: camelizedUser.createdAt || "",
-      };
+    return response;
 
-      return userModel;
-    }
+    // if (response) {
+    //   const camelizedUser: any = camelizeKeys(response);
+    //   const userModel: UserModel = {
+    //     userId: camelizedUser.userId || "",
+    //     userName: camelizedUser.userName || "",
+    //     createdAt: camelizedUser.createdAt || "",
+    //   };
+    //
+    //   return userModel;
+    // }
   }
 
   async createUser(user: UserModel): Promise<void> {

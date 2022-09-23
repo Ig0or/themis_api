@@ -13,6 +13,7 @@ import PostInput from "@domain/types/post/post-input";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
+import { camelizeKeys } from "humps";
 
 class PostService implements IPostService {
   private _postRepository: IPostRepository;
@@ -38,7 +39,11 @@ class PostService implements IPostService {
 
     try {
       const posts = await this._postRepository.getAllPosts();
-      responseModel.result = posts;
+      const camelizedPosts = camelizeKeys(posts);
+      const postsModel = camelizedPosts.map((post) =>
+        new PostModel().toModel(post)
+      );
+      responseModel.result = postsModel;
     } catch (error) {
       responseModel.statusCode = 500;
       responseModel.success = false;
@@ -56,7 +61,14 @@ class PostService implements IPostService {
 
     try {
       const post = await this._postRepository.getPostById(postId);
-      responseModel.result = post || {};
+
+      let postModel;
+      if (post) {
+        const camelizedPost: any = camelizeKeys(post);
+        postModel = new PostModel().toModel(camelizedPost);
+      }
+
+      responseModel.result = postModel || {};
     } catch (error) {
       responseModel.statusCode = 500;
       responseModel.success = false;
@@ -87,6 +99,8 @@ class PostService implements IPostService {
 
       const postId = uuidv4();
       const createdAt = Date.now();
+      const postModel = new PostModel().toModel();
+
       const postObject: PostModel = {
         postId: postId,
         userId: post.userId,

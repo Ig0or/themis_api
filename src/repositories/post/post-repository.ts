@@ -27,51 +27,30 @@ class PostRepository extends BaseMongoRepository implements IPostRepository {
     );
   }
 
-  async getAllPosts(): Promise<Array<PostModel>> {
+  async getAllPosts(): Promise<Array<any>> {
     const response = await this._postsConnection
       .find({}, { projection: { _id: 0 } })
       .toArray();
-    const camelizedPosts: any = camelizeKeys(response);
 
-    const arrayPostsModel = camelizedPosts.map((post) => {
-      const postModel: PostModel = {
-        title: post.title || "",
-        body: post.body || "",
-        userId: post.userId || "",
-        postId: post.postId || "",
-        createdAt: post.createdAt || 0,
-      };
-
-      return postModel;
-    });
-
-    return arrayPostsModel;
+    return response;
   }
 
-  async getPostById(postId: string): Promise<PostModel> {
+  async getPostById(postId: string): Promise<any> {
     const response = await this._postsConnection.findOne(
       { post_id: postId },
       { projection: { _id: 0 } }
     );
 
-    if (response) {
-      const camelizedPost: any = camelizeKeys(response);
-      const postModel: PostModel = {
-        title: camelizedPost.title || "",
-        body: camelizedPost.body || "",
-        userId: camelizedPost.userId || "",
-        postId: camelizedPost.postId || "",
-        createdAt: camelizedPost.createdAt || 0,
-      };
-
-      return postModel;
-    }
+    return response;
   }
 
   async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
     const response = await this._postsConnection
       .find({ user_id: userId }, { projection: { _id: 0 } })
       .toArray();
+
+    return response;
+
     const camelizedPosts: any = camelizeKeys(response);
 
     const arrayPostsModel = camelizedPosts.map((post) => {
