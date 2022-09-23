@@ -6,13 +6,19 @@ import { Collection, DeleteResult, UpdateResult } from "mongodb";
 import IPostRepository from "@core/repositories/post/i-post-repository";
 import PostModel from "@domain/models/post/post-model";
 import PostInput from "@domain/types/post/post-input";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
 import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 
 class PostRepository extends BaseMongoRepository implements IPostRepository {
   private _postsConnection: Collection;
 
-  constructor() {
-    super();
+  constructor(
+    mongoInfrastructure: MongoInfrastructure = dependenciesContainer.infrastructure.mongoInfrastructure.injectClass(
+      MongoInfrastructure
+    )
+  ) {
+    super(mongoInfrastructure);
 
     this._postsConnection = this.mongoInfrastructure.getConnection(
       process.env.MONGO_DB_URI!,

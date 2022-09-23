@@ -6,6 +6,7 @@ import PostService from "@services/post/post-service";
 import UserService from "@services/user/user-service";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
+import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
 
 const dependenciesContainer = {
   controllers: {
@@ -33,9 +34,14 @@ const dependenciesContainer = {
   },
 
   repositories: {
-    baseMongoRepository: createInjector(),
-    postRepository: createInjector(),
-    userRepository: createInjector(),
+    postRepository: createInjector().provideClass(
+      "mongoInfrastructure",
+      MongoInfrastructure
+    ),
+    userRepository: createInjector().provideClass(
+      "mongoInfrastructure",
+      MongoInfrastructure
+    ),
   },
 };
 

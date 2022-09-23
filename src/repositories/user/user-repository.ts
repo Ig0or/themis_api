@@ -5,14 +5,20 @@ import { Collection, DeleteResult, UpdateResult } from "mongodb";
 // Local
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import UserModel from "@domain/models/user/user-model";
+import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
+import dependenciesContainer from "@infrastructure/DI/modules";
 import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 import UserInput from "@domain/types/user/user-input";
 
 class UserRepository extends BaseMongoRepository implements IUserRepository {
   private _usersConnection: Collection;
 
-  constructor() {
-    super();
+  constructor(
+    mongoInfrastructure: MongoInfrastructure = dependenciesContainer.infrastructure.mongoInfrastructure.injectClass(
+      MongoInfrastructure
+    )
+  ) {
+    super(mongoInfrastructure);
 
     this._usersConnection = this.mongoInfrastructure.getConnection(
       process.env.MONGO_DB_URI!,
