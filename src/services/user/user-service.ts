@@ -1,5 +1,6 @@
 // Third Party
 import { v4 as uuidv4 } from "uuid";
+import { camelizeKeys, decamelizeKeys } from "humps";
 
 // Local
 import IPostRepository from "@core/repositories/post/i-post-repository";
@@ -38,7 +39,12 @@ class UserService implements IUserService {
 
     try {
       const users = await this._userRepository.getAllUsers();
-      responseModel.result = users;
+      const camelizedUsers: any = camelizeKeys(users);
+      const usersModel = camelizedUsers.map((user) =>
+        new UserModel().toModel(user)
+      );
+
+      responseModel.result = usersModel;
     } catch (error) {
       responseModel.statusCode = 500;
       responseModel.success = false;
@@ -57,12 +63,17 @@ class UserService implements IUserService {
     try {
       const user = await this._userRepository.getUserById(userId);
 
+      let userModel;
       if (user) {
         const userPosts = await this._postRepository.getPostsByUserId(userId);
-        user.posts = userPosts;
+
+        const camelizedUser: any = camelizeKeys(user);
+        const camelizedUserPosts: any = camelizeKeys(userPosts);
+
+        userModel = new UserModel().toModel(camelizedUser, camelizedUserPosts);
       }
 
-      responseModel.result = user || {};
+      responseModel.result = userModel || {};
     } catch (error) {
       responseModel.statusCode = 500;
       responseModel.success = false;
@@ -81,13 +92,17 @@ class UserService implements IUserService {
     try {
       const userId = uuidv4();
       const createdAt = Date.now();
-      const userModel: UserModel = {
+
+      const userObject = {
         userId: userId,
         createdAt: createdAt,
         userName: user.userName,
       };
 
-      await this._userRepository.createUser(userModel);
+      const userModel = new UserModel().toModel(userObject);
+      const decamelizeUserModel: any = decamelizeKeys(userModel);
+
+      await this._userRepository.createUser(decamelizeUserModel);
 
       responseModel.result = "User created";
     } catch (error) {

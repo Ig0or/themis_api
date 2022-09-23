@@ -1,5 +1,4 @@
 // Third Party
-import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection, DeleteResult, UpdateResult } from "mongodb";
 
 // Local
@@ -44,33 +43,16 @@ class PostRepository extends BaseMongoRepository implements IPostRepository {
     return response;
   }
 
-  async getPostsByUserId(userId: string): Promise<Array<PostModel>> {
+  async getPostsByUserId(userId: string): Promise<Array<any>> {
     const response = await this._postsConnection
       .find({ user_id: userId }, { projection: { _id: 0 } })
       .toArray();
 
     return response;
-
-    const camelizedPosts: any = camelizeKeys(response);
-
-    const arrayPostsModel = camelizedPosts.map((post) => {
-      const postModel: PostModel = {
-        title: post.title || "",
-        body: post.body || "",
-        userId: post.userId || "",
-        postId: post.postId || "",
-        createdAt: post.createdAt || 0,
-      };
-
-      return postModel;
-    });
-
-    return arrayPostsModel;
   }
 
   async createPost(post: PostModel): Promise<void> {
-    const decamelizePost = decamelizeKeys(post);
-    await this._postsConnection.insertOne(decamelizePost);
+    await this._postsConnection.insertOne(post);
 
     return;
   }

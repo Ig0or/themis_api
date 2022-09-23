@@ -6,9 +6,9 @@ import PostModel from "@domain/models/post/post-model";
 import PostInput from "@domain/types/post/post-input";
 
 interface IPostRepository {
-  getAllPosts(): Promise<Array<PostModel>>;
+  getAllPosts(): Promise<Array<any>>;
 
-  getPostById(postId: string): Promise<PostModel>;
+  getPostById(postId: string): Promise<any>;
 
   createPost(post: PostModel): Promise<void>;
 

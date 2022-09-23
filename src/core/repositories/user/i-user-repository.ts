@@ -6,9 +6,9 @@ import UserModel from "@domain/models/user/user-model";
 import UserInput from "@domain/types/user/user-input";
 
 interface IUserRepository {
-  getAllUsers(): Promise<Array<UserModel>>;
+  getAllUsers(): Promise<Array<any>>;
 
-  getUserById(userId: string): Promise<UserModel>;
+  getUserById(userId: string): Promise<any>;
 
   createUser(user: UserModel): Promise<void>;
 

@@ -1,5 +1,6 @@
 // Third Party
 import { v4 as uuidv4 } from "uuid";
+import { camelizeKeys, decamelizeKeys } from "humps";
 
 // Local
 import IPostService from "@core/services/post/i-post-service";
@@ -13,7 +14,6 @@ import PostInput from "@domain/types/post/post-input";
 import dependenciesContainer from "@infrastructure/DI/modules";
 import PostRepository from "@repositories/post/post-repository";
 import UserRepository from "@repositories/user/user-repository";
-import { camelizeKeys } from "humps";
 
 class PostService implements IPostService {
   private _postRepository: IPostRepository;
@@ -99,9 +99,8 @@ class PostService implements IPostService {
 
       const postId = uuidv4();
       const createdAt = Date.now();
-      const postModel = new PostModel().toModel();
 
-      const postObject: PostModel = {
+      const postObject = {
         postId: postId,
         userId: post.userId,
         createdAt: createdAt,
@@ -109,7 +108,10 @@ class PostService implements IPostService {
         body: post.body,
       };
 
-      await this._postRepository.createPost(postObject);
+      const postModel = new PostModel().toModel(postObject);
+      const decamelizePostModel: any = decamelizeKeys(postModel);
+
+      await this._postRepository.createPost(decamelizePostModel);
 
       responseModel.result = "Post created";
     } catch (error) {

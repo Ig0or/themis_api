@@ -1,14 +1,13 @@
 // Third Party
-import { camelizeKeys, decamelizeKeys } from "humps";
 import { Collection, DeleteResult, UpdateResult } from "mongodb";
 
 // Local
 import IUserRepository from "@core/repositories/user/i-user-repository";
 import UserModel from "@domain/models/user/user-model";
-import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
-import dependenciesContainer from "@infrastructure/DI/modules";
-import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 import UserInput from "@domain/types/user/user-input";
+import dependenciesContainer from "@infrastructure/DI/modules";
+import MongoInfrastructure from "@infrastructure/mongodb/mongodb-infrastructure";
+import BaseMongoRepository from "@repositories/base/mongodb/base-repository";
 
 class UserRepository extends BaseMongoRepository implements IUserRepository {
   private _usersConnection: Collection;
@@ -27,23 +26,12 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
     );
   }
 
-  async getAllUsers(): Promise<Array<UserModel>> {
+  async getAllUsers(): Promise<Array<any>> {
     const response = await this._usersConnection
       .find({}, { projection: { _id: 0 } })
       .toArray();
-    const camelizedUsers: any = camelizeKeys(response);
 
-    const arrayUsersModel = camelizedUsers.map((user) => {
-      const userModel: UserModel = {
-        userId: user.userId || "",
-        userName: user.userName || "",
-        createdAt: user.createdAt || "",
-      };
-
-      return userModel;
-    });
-
-    return arrayUsersModel;
+    return response;
   }
 
   async getUserById(userId: string): Promise<any> {
@@ -53,22 +41,10 @@ class UserRepository extends BaseMongoRepository implements IUserRepository {
     );
 
     return response;
-
-    // if (response) {
-    //   const camelizedUser: any = camelizeKeys(response);
-    //   const userModel: UserModel = {
-    //     userId: camelizedUser.userId || "",
-    //     userName: camelizedUser.userName || "",
-    //     createdAt: camelizedUser.createdAt || "",
-    //   };
-    //
-    //   return userModel;
-    // }
   }
 
   async createUser(user: UserModel): Promise<void> {
-    const decamelizePost = decamelizeKeys(user);
-    await this._usersConnection.insertOne(decamelizePost);
+    await this._usersConnection.insertOne(user);
 
     return;
   }
