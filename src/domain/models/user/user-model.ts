@@ -10,9 +10,9 @@ class UserModel {
   constructor() {}
 
   public toModel(user: any, posts: any = null): UserModel {
-    this.userId = user.userId;
-    this.userName = user.userName;
-    this.createdAt = user.createdAt;
+    this.userId = user.userId || "";
+    this.userName = user.userName || "";
+    this.createdAt = user.createdAt || 0;
     this.posts = posts
       ? posts.map((post) => new PostModel().toModel(post))
       : undefined;

@@ -39,7 +39,7 @@ class PostService implements IPostService {
 
     try {
       const posts = await this._postRepository.getAllPosts();
-      const camelizedPosts = camelizeKeys(posts);
+      const camelizedPosts: any = camelizeKeys(posts);
       const postsModel = camelizedPosts.map((post) =>
         new PostModel().toModel(post)
       );
