@@ -2,6 +2,7 @@
 import makeSut from "./make-sut";
 import {
   allPostsStub,
+  emptyPostStub,
   invalidDeletedPostStub,
   invalidEditedPostStub,
   invalidPostIdStub,
@@ -70,6 +71,16 @@ describe("Post Service", () => {
       expect(responseModel.statusCode).toEqual(200);
       expect(responseModel.success).toEqual(true);
       expect(responseModel.result).toEqual({});
+    });
+
+    it("Should return response model with guard values if db dont bring correct post information", async () => {
+      postRepositoryInstanceMock.getPostById.mockResolvedValue({});
+
+      const responseModel = await sutPostService.getPostById(validPostIdStub);
+
+      expect(responseModel.statusCode).toEqual(200);
+      expect(responseModel.success).toEqual(true);
+      expect(responseModel.result).toMatchObject(emptyPostStub);
     });
 
     it("Should return response model with error if catch an error", async () => {

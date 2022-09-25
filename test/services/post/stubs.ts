@@ -1,12 +1,10 @@
 // Local
-import PostModel from "@domain/models/post/post-model";
 import PostInput from "@domain/types/post/post-input";
-import UserModel from "@domain/models/user/user-model";
 
 const validPostIdStub = "cf07919d-32b8-4eb2-80b6-0916acffc8ad";
 const invalidPostIdStub = "invalid id";
 
-const allPostsStub: Array<PostModel> = [
+const allPostsStub = [
   {
     title: "Titulo do Post",
     body: "Body do Post",
@@ -23,12 +21,20 @@ const allPostsStub: Array<PostModel> = [
   },
 ];
 
-const postStub: PostModel = {
+const postStub = {
   title: "Titulo do Post",
   body: "Body do Post",
   userId: "b7d4c81f-fcdd-4e9b-9c0a-5ae16131f9c1",
   postId: "cf07919d-32b8-4eb2-80b6-0916acffc8ad",
   createdAt: 1662990217070,
+};
+
+const emptyPostStub = {
+  title: "",
+  body: "",
+  userId: "",
+  postId: "",
+  createdAt: 0,
 };
 
 const validPostInputStub: PostInput = {
@@ -43,7 +49,7 @@ const invalidPostInputStub: PostInput = {
   userId: "invalid user id",
 };
 
-const userStub: UserModel = {
+const userStub = {
   userId: "b7d4c81f-fcdd-4e9b-9c0a-5ae16131f9c1",
   userName: "felipinho",
   createdAt: 1662986707090,
@@ -82,6 +88,7 @@ const invalidEditedPostStub = {
 
 export {
   allPostsStub,
+  emptyPostStub,
   invalidEditedPostStub,
   invalidPostIdStub,
   invalidPostInputStub,

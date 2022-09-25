@@ -4,6 +4,7 @@ import makeSut from "./make-sut";
 import {
   allPostsStub,
   allUsersStub,
+  emptyResponseStub,
   invalidDeletedUserStub,
   invalidEditedUserStub,
   validDeletedUserStub,
@@ -72,6 +73,16 @@ describe("User Service", () => {
       expect(responseModel.statusCode).toEqual(200);
       expect(responseModel.success).toEqual(true);
       expect(responseModel.result).toEqual({});
+    });
+
+    it("Should return response model with guard values if db dont bring correct user information", async () => {
+      userRepositoryInstanceMock.getUserById.mockResolvedValue({});
+
+      const responseModel = await sutUserService.getUserById(validUserId);
+
+      expect(responseModel.statusCode).toEqual(200);
+      expect(responseModel.success).toEqual(true);
+      expect(responseModel.result).toMatchObject(emptyResponseStub);
     });
 
     it("Should return response model with error if catch an error", async () => {

@@ -1,10 +1,8 @@
 // Local
-import PostModel from "@domain/models/post/post-model";
-import UserModel from "@domain/models/user/user-model";
 
 const validUserId = "b7d4c81f-fcdd-4e9b-9c0a-5ae16131f9c1";
 
-const allUsersStub: Array<UserModel> = [
+const allUsersStub = [
   {
     userId: "b7d4c81f-fcdd-4e9b-9c0a-5ae16131f9c1",
     userName: "filipinho",
@@ -17,7 +15,7 @@ const allUsersStub: Array<UserModel> = [
   },
 ];
 
-const allPostsStub: Array<PostModel> = [
+const allPostsStub = [
   {
     title: "Titulo do Post",
     body: "Body do Post",
@@ -56,6 +54,12 @@ const validResponseStub = {
   ],
 };
 
+const emptyResponseStub = {
+  userId: "",
+  userName: "",
+  createdAt: 0,
+};
+
 const validEditedUserStub = {
   modifiedCount: 1,
   matchedCount: 1,
@@ -85,6 +89,7 @@ const invalidDeletedUserStub = {
 export {
   allPostsStub,
   allUsersStub,
+  emptyResponseStub,
   invalidDeletedUserStub,
   invalidEditedUserStub,
   validDeletedUserStub,
