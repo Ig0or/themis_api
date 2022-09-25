@@ -8,6 +8,7 @@
     "start": "nodemon",
     "test": "jest",
     "test:cov": "jest --coverage"
+    "test:mut": "stryker run --ignoreStatic"
   },
   "keywords": [],
   "author": "",
